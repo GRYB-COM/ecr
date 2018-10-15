@@ -1,0 +1,13 @@
+
+REM DFM
+
+REM H
+COPY SOURCE\ECR_Terminal.h        ..\_INCLUDE\ECR /Y 
+COPY SOURCE\ECR_Pars.H            ..\_INCLUDE\ECR /Y 
+COPY SOURCE\ECR_IObserver.H       ..\_INCLUDE\ECR /Y 
+COPY SOURCE\ECR_Message.H         ..\_INCLUDE\ECR /Y 
+COPY SOURCE\ECR_Globals.H         ..\_INCLUDE\ECR /Y 
+COPY SOURCE\ECR_Exceptions.H      ..\_INCLUDE\ECR /Y 
+
+COPY DEBUG\LIB\IsECR250.lib		 ..\_LIBRARY\DEBUG /Y
+COPY RELEASE\LIB\IsECR250.lib		 ..\_LIBRARY /Y

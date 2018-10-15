@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{546389DA-61FD-41E4-8D11-B748D8E4DF30}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="IsECR200.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="P:\TESTY\TCP\CLIENT\Project2.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="IsECR200">
+        <MSBuild Projects="IsECR200.cbproj"/>
+    </Target>
+    <Target Name="IsECR200:Clean">
+        <MSBuild Projects="IsECR200.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="IsECR200:Make">
+        <MSBuild Projects="IsECR200.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Project2">
+        <MSBuild Projects="P:\TESTY\TCP\CLIENT\Project2.cbproj"/>
+    </Target>
+    <Target Name="Project2:Clean">
+        <MSBuild Projects="P:\TESTY\TCP\CLIENT\Project2.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Project2:Make">
+        <MSBuild Projects="P:\TESTY\TCP\CLIENT\Project2.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="IsECR200;Project2"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="IsECR200:Clean;Project2:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="IsECR200:Make;Project2:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
