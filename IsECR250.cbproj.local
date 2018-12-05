@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>1899-12-30 00:00:00.000.395,=P:\ECR\Unit1.cpp</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.095,=P:\ECR\Unit1.cpp</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.566,=P:\ECR\Unit1.cpp</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.040,=P:\ECR\Unit1.cpp</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.954,=P:\ECR\Unit1.cpp</Transaction>
     <Transaction>1899-12-30 00:00:00.000.871,=P:\ECR\Unit1.cpp</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.379,=P:\ECR\Unit1.cpp</Transaction>
     <Transaction>1899-12-30 00:00:00.000.671,P:\ECR\Unit1.cpp=P:\ECR\ECR_Pars.cpp</Transaction>
     <Transaction>1899-12-30 00:00:00.000.152,=P:\ECR\Unit1.cpp</Transaction>
     <Transaction>1899-12-30 00:00:00.000.148,=P:\ECR\Unit1.cpp</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.954,=P:\ECR\Unit1.cpp</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.040,=P:\ECR\Unit1.cpp</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.379,=P:\ECR\Unit1.cpp</Transaction>
     <Transaction>1899-12-30 00:00:00.000.737,=P:\ECR\Unit1.cpp</Transaction>
     <Transaction>1899-12-30 00:00:00.000.770,=P:\ECR\Unit1.cpp</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.566,=P:\ECR\Unit1.cpp</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.095,=P:\ECR\Unit1.cpp</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.395,=P:\ECR\Unit1.cpp</Transaction>
     <Transaction>1899-12-30 00:00:00.000.755,=P:\ECR\Unit1.cpp</Transaction>
     <Transaction>1899-12-30 00:00:00.000.908,=P:\ECR\Unit1.cpp</Transaction>
     <Transaction>1899-12-30 00:00:00.000.379,P:\ECR\SOURCE\ECR_FieldMasks.cpp=P:\ECR\SOURCE\ECR_Fields.cpp</Transaction>
@@ -31,7 +31,7 @@
     <Transaction>1899-12-30 00:00:00.000.592,P:\_COMMON\_SLAWEK\FUNCS\Globfunc.cpp=</Transaction>
     <Transaction>1899-12-30 00:00:00.000.960,P:\ECR\SOURCE\ECR_TransStatDescr.cpp=P:\ECR\Unit1.cpp</Transaction>
     <Transaction>1899-12-30 00:00:00.000.634,=P:\WZORCE\SOURCE\TABELE_RTF\QuickTable_RTF.cpp</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.273,P:\ECR\SOURCE\Message.h=P:\ECR\Unit1.h</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.817,P:\ECR\SOURCE\Message.h=P:\ECR\SOURCE\ECR_Message.h</Transaction>
     <Transaction>1899-12-30 00:00:00.000.158,P:\ECR\SOURCE\ECR_Utils.cpp=P:\ECR\ECR_Utils.cpp</Transaction>
     <Transaction>1899-12-30 00:00:00.000.671,P:\ECR\Unit1.h=P:\ECR\ECR_Pars.h</Transaction>
     <Transaction>1899-12-30 00:00:00.000.320,P:\ECR\Unit1.h=P:\ECR\SOURCE\ECR_Factories.h</Transaction>
@@ -40,7 +40,7 @@
     <Transaction>1899-12-30 00:00:00.000.402,P:\ECR\SOURCE\ECR_Fields.h=P:\ECR\Unit1.h</Transaction>
     <Transaction>1899-12-30 00:00:00.000.477,P:\ECR\SOURCE\ECR_Globals.cpp=P:\ECR\Unit1.cpp</Transaction>
     <Transaction>1899-12-30 00:00:00.000.676,P:\ECR\SOURCE\TERMINALS\TerminalIndy.h=P:\ECR\Unit1.h</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.817,P:\ECR\SOURCE\Message.h=P:\ECR\SOURCE\ECR_Message.h</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.273,P:\ECR\SOURCE\Message.h=P:\ECR\Unit1.h</Transaction>
     <Transaction>1899-12-30 00:00:00.000.969,P:\ECR\SOURCE\ECR_ITerminal.h=P:\ECR\Unit1.h</Transaction>
     <Transaction>1899-12-30 00:00:00.000.204,P:\ECR\ECR_Utils.h=P:\ECR\Unit1.h</Transaction>
     <Transaction>1899-12-30 00:00:00.000.676,P:\ECR\SOURCE\TERMINALS\TerminalIndy.cpp=P:\ECR\Unit1.cpp</Transaction>
