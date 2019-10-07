@@ -1,0 +1,17 @@
+1. Terminal po rozliczeniu (brak transakcji na terminalu)
+2. Nieudana kopia wydruku ostatniej transakcji.
+* 3s czas transakcji jest spowodowany 3s prezentacja komunikatu o bledzie na pinpadzie Vx820
+
+2018-06-05 16:49:33,855 <-- frame [STX]2803[FS]S1[FS]K[FS]ABC1234567890[FS][FS]0[FS]0[FS]0[FS]PLN[FS][ETX][FS]
+2018-06-05 16:49:33,900 ..... --> [ACK]
+2018-06-05 16:49:36,994 frame --> [STX]2803[FS]S2[FS]1[FS][FS]CORCARD ITCARD[FS][ETX]%
+2018-06-05 16:49:36,994 ..... <-- [ACK]
+
+1. Terminal po rozliczeniu (brak transakcji na terminalu)
+2. Nieudana kopia wydruku transakcji o numerze ecr: "einv998".
+* 3s czas transakcji jest spowodowany 3s prezentacja komunikatu o bledzie na pinpadzie Vx820
+
+2018-06-05 16:53:04,124 <-- frame [STX]2801[FS]S1[FS]K[FS]ABC1234567890[FS]einv998[FS]0[FS]0[FS]0[FS]PLN[FS][ETX]2
+2018-06-05 16:53:04,175 ..... --> [ACK]
+2018-06-05 16:53:07,268 frame --> [STX]2801[FS]S2[FS]1[FS][FS]CORCARD ITCARD[FS][ETX]'
+2018-06-05 16:53:07,268 ..... <-- [ACK]

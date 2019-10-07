@@ -1,0 +1,35 @@
+1. Transakcji kopii transakcji o ecr id: einv1016 (2018-06-05 17:20:09,119)
+2. Wydruk (2018-06-05 17:20:09,358)
+3. Rezultat transakcji (2018-06-05 17:20:09,504)
+4. Dla porównania transakcja kopii ostatniej transakcji (brak Identyfikator dokumentu sprzedaży, 2018-06-05 17:20:10,230)
+5. Wydruk (ostatnia transakcja ma EcrInvNo#einv1018;, poprzednio drukowaliśmy dla einv1016)
+6. Rezultat transakcji (2018-06-05 17:20:10,621)
+
+2018-06-05 17:20:09,119 <-- frame [STX]2816[FS]S1[FS]K[FS]ABC1234567890[FS]einv1016[FS]0[FS]0[FS]0[FS]PLN[FS][ETX][0xa]
+2018-06-05 17:20:09,172 ..... --> [ACK]
+2018-06-05 17:20:09,358 frame --> [STX]978047[FS]DD[FS]Layout#Transaction;TID#ING00007;MID#500002000001;TrDate#05-06-2018 17:19:58;DemoTxt#;Name#APDU SP. Z O.O.;Addr1#UL. RÓWNOLEG£A 2;Addr2#02-231 WARSZAWA;ExgProvider#;DccDisclamer#;DccFlag#;FooterLogoFlag#;CardName#VISA CREDIT;EntryPAN#07;EntryPin#1;CtlsMark#CONTACTLESS;PAN#476173******0010;AID#A0000000031010;AOSA#;BLIK#;RefCode#;RRN#815615491021;AuthNo#026290;HostResText#;TrResText#TRANSAKCJA ZAAKCEPTOWANA;TrResFailFlag#;AuthSig#;AuthPin#;InvNo#000388;EcrInvNo#einv1016;InvAddText#KOPIA;TrTotalAmt#9.28 PLN;TrTotalName#SPRZEDA¯;[FS][ETX]
+2018-06-05 17:20:09,358 ..... <-- [ACK]
+2018-06-05 17:20:09,361 <-- frame [STX]978047[FS]D0[FS]0[FS]0[FS]0[FS][ETX]^
+2018-06-05 17:20:09,431 ..... --> [ACK]
+2018-06-05 17:20:09,504 frame --> [STX]2816[FS]S2[FS]0[FS][FS]CORCARD ITCARD[FS][FS][FS]0[FS]0[FS][ETX]
+2018-06-05 17:20:09,504 ..... <-- [ACK]
+2018-06-05 17:20:10,230 <-- frame [STX]2817[FS]S1[FS]K[FS]ABC1234567890[FS][FS]0[FS]0[FS]0[FS]PLN[FS][ETX][0x19]
+2018-06-05 17:20:10,284 ..... --> [ACK]
+2018-06-05 17:20:10,478 frame --> [STX]978048[FS]DD[FS]Layout#Transaction;TID#ING00007;MID#500002000001;TrDate#05-06-2018 17:20:07;DemoTxt#;Name#APDU SP. Z O.O.;Addr1#UL. RÓWNOLEG£A 2;Addr2#02-231 WARSZAWA;ExgProvider#;DccDisclamer#;DccFlag#;FooterLogoFlag#;CardName#VISA CREDIT;EntryPAN#07;EntryPin#1;CtlsMark#CONTACTLESS;PAN#476173******0010;AID#A0000000031010;AOSA#;BLIK#;RefCode#;RRN#815615491023;AuthNo#006290;HostResText#;TrResText#TRANSAKCJA ZAAKCEPTOWANA;TrResFailFlag#;AuthSig#;AuthPin#;InvNo#000390;EcrInvNo#einv1018;InvAddText#KOPIA;TrTotalAmt#9.28 PLN;TrTotalName#SPRZEDA¯;[FS][ETX]
+2018-06-05 17:20:10,478 ..... <-- [ACK]
+2018-06-05 17:20:10,482 <-- frame [STX]978048[FS]D0[FS]0[FS]0[FS]0[FS][ETX]Q
+2018-06-05 17:20:10,550 ..... --> [ACK]
+2018-06-05 17:20:10,621 frame --> [STX]2817[FS]S2[FS]0[FS][FS]CORCARD ITCARD[FS][FS][FS]0[FS]0[FS][ETX]!
+2018-06-05 17:20:10,621 ..... <-- [ACK]
+
+
+
+
+
+
+
+
+
+
+
+

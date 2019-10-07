@@ -1,0 +1,13 @@
+1. Transakcja wydruku kopii ostatniej transakcji (brak Identyfikator dokumentu sprzedaży, 2018-06-05 16:58:54,904)
+2. Wydruk (2018-06-05 16:58:55,118)
+3. Rezultat transakcji wydruku kopii (2018-06-05 16:58:55,263)
+
+2018-06-05 16:58:54,904 <-- frame [STX]2809[FS]S1[FS]K[FS]ABC1234567890[FS][FS]0[FS]0[FS]0[FS]PLN[FS][ETX][0x16]
+2018-06-05 16:58:54,953 ..... --> [ACK]
+2018-06-05 16:58:55,118 frame --> [STX]CE95E3[FS]DD[FS]Layout#Transaction;TID#ING00007;MID#500002000001;TrDate#05-06-2018 16:58:19;DemoTxt#;Name#APDU SP. Z O.O.;Addr1#UL. RÓWNOLEG£A 2;Addr2#02-231 WARSZAWA;ExgProvider#;DccDisclamer#;DccFlag#;FooterLogoFlag#;CardName#VISA CREDIT;EntryPAN#07;EntryPin#1;CtlsMark#CONTACTLESS;PAN#476173******0010;AID#A0000000031010;AOSA#;BLIK#;RefCode#;RRN#815614491002;AuthNo#171448;HostResText#;TrResText#TRANSAKCJA ZAAKCEPTOWANA;TrResFailFlag#;AuthSig#;AuthPin#;InvNo#000381;InvAddText#KOPIA;TrTotalAmt#2.00 PLN;TrTotalName#ZWROT;[FS][ETX]~
+2018-06-05 16:58:55,118 ..... <-- [ACK]
+2018-06-05 16:58:55,121 <-- frame [STX]CE95E3[FS]D0[FS]0[FS]0[FS]0[FS][ETX]'
+2018-06-05 16:58:55,192 ..... --> [ACK]
+2018-06-05 16:58:55,263 frame --> [STX]2809[FS]S2[FS]0[FS][FS]CORCARD ITCARD[FS][FS][FS]0[FS]0[FS][ETX].
+2018-06-05 16:58:55,263 ..... <-- [ACK]
+
