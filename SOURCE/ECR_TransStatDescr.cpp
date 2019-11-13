@@ -18,6 +18,8 @@ TransStatDescr::TransStatDescr(void)
 	m_Cont[Globals::tsRefusal] ="Transakcja zosta³a odrzucona przez terminal. ";
 	m_Cont[Globals::tsTransAbort] ="Operacja zosta³a anulowana b¹dŸ przekroczony zosta³ dopuszczalny czas transakcji.";
 	m_Cont[Globals::tsMultiMerchIncorrect] ="Transakcja zosta³a odrzucona z powodu b³êdnej konfiguracji profili sprzedawców.";
+	m_Cont[Globals::tsMessIDNotMatch] ="Transakcja zosta³a odrzucona z powodu b³êdnego identyfikatora transakcji zwróconego przez terminal.";
+	m_Cont[Globals::tsTokenNotMatch] ="Transakcja zosta³a odrzucona z powodu b³êdnego tokenu transakcji zwróconego przez terminal.";
 }
 
 //---------------------------------------------------------------------------
@@ -35,13 +37,14 @@ String TransStatDescr::get(const Globals::TransStat& _Stat)
 	if (m_Cont.find(_St) == m_Cont.end())
 		_St=Globals::tsUnknown;
 	_Res = m_Cont[_St];
-	if (_St ==Globals::tsUnknown)
+	if (_St ==Globals::tsUnknown && m_LastError.IsEmpty())
 	{
 		_Res = Format(_Res, ARRAYOFCONST(((int)_Stat)));
 	}
-	else if (_St ==Globals::tsConnErr && !m_LastError.IsEmpty())
+	else if (_St ==Globals::tsConnErr || _St ==Globals::tsTokenNotMatch || _St ==Globals::tsMessIDNotMatch )
 	{
 		_Res += m_LastError;
 	}
+   else _Res = m_LastError;
 	return _Res;
 }

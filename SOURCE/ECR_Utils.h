@@ -7,6 +7,7 @@
 
 namespace ecr
 {
+   class Pars;
 	class StringContainer : public std::vector<AnsiString>
 	{
 	public:
@@ -17,7 +18,10 @@ namespace ecr
 	class Utils
 	{
 	public:
-		static StringContainer explode(const AnsiString & _Source);
+		static StringContainer explode(const AnsiString & _Source, const AnsiString& separator);
+		static StringContainer explode(const AnsiString & _Source, const char start_separator, const char end_separator);
+      static AnsiString getSeparator(const Pars&);
+
 	};
 }//end nmspc
 //---------------------------------------------------------------------------

@@ -8,8 +8,10 @@
 
 namespace ecr
 {
-	class TerminalIndy;
-
+	class CommunicationIndy;
+	class CommunicationSerial;
+   class ItcardRSTerminal;
+   class Terminal;
 	class TransStatDescr
 	{
 	public:
@@ -31,7 +33,10 @@ namespace ecr
 		std::map<Globals::TransStat, String>m_Cont;
 
 		static String m_LastError;
-		friend TerminalIndy;
+		friend CommunicationIndy;
+      friend CommunicationSerial;
+      friend ItcardRSTerminal;
+      friend Terminal;
 	};
 }
 //---------------------------------------------------------------------------

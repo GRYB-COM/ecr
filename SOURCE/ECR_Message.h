@@ -6,151 +6,66 @@
 
 namespace ecr
 {
-	class MessIDMask;
+	class ItcardMessIDMask;
+	class ItcardMessTokenMask;
+	class PostcardMessIDMask;
 	class TermStatusMask;
 	class TermIDMask;
-
+	class EcrIDMask;
+	class DocIDMask;
+   class MessageStringConverter;
+   class MessageFactory;
 	class Message
 	{
 	public:
-		//METODY DOSTÊPU
-		//GET
-		Globals::MessID getMessID(void) const
-		{
-			return m_MessID;
-		}
+      Message(const Message& message);
+      Message& operator=(const Message& message)     { copy(message); return *this; }
 
-		int getTermStatus(void) const
-		{
-			return m_TermStatus;
-		}
+		Globals::MessID getMessID(void) const 			  {  return m_MessID;       		}
+		String getMessageToken(void) const      	     {  return message_token;  		}
+		int getTermStatus(void) const          	     {  return m_TermStatus;   		}
+		int getTermID(void) const              	     {  return m_TermID;       		}
+		String getEcrID(void) const              	     {  return ecr_ID;        		}
+		String getDocID(void) const              	     {  return doc_ID;        		}
+		Currency getAmount(void) const                 {  return m_Amount;       		}
+		Globals::TransKind getTransKind(void) const    {  return m_TransKind;    		}
+		AnsiString getAsString(void)const;
+		int getCardType(void) const                    {  return m_CardType;     		}
+		Globals::TransStat getTransStatus(void) const  {  return m_TransStatus;  		}
+		String getRawMess(void) const                  {  return message_as_string;   }
+		String getPinPadMsg(void) const                {  return m_PinPadMsg;         }
+		int getPPMSize(void) const                     {  return m_PPMSize;           }
+		Globals::RespKind getRespKind(void) const      {  return m_RespKind;         	}
+		int getTimeOut(void) const                     {  return m_TimeOut;           }
+		int getProfileId(void) const                   {  return m_ProfileId;         }
+		Globals::PromptReq getPromptReq(void) const    {  return m_PromptReq;        	}
 
-		int getTermID(void) const
-		{
-			return m_TermID;
-		}
-
-		Currency getAmount(void) const
-		{
-			return m_Amount;
-		}
-
-		Globals::TransKind getTransKind(void) const
-		{
-			return m_TransKind;
-		}
-		AnsiString getAsString(void); //nie mo¿e byæ const
-
-		int getCardType(void) const
-		{
-			return m_CardType;
-		}
-
-		Globals::TransStat getTransStatus(void) const
-		{
-			return m_TransStatus;
-		}
-
-		String getRawMess(void) const
-		{
-			return m_RawMess;
-		}
-
-		String getPinPadMsg(void) const
-		{
-			return m_PinPadMsg;
-		}
-
-		int getPPMSize(void) const
-		{
-			return m_PPMSize;
-		}
-
-		Globals::RespKind getRespKind(void) const
-		{
-			return m_RespKind;
-		}
-
-		int getTimeOut(void) const
-		{
-			return m_TimeOut;
-		}
-
-		int getProfileId(void) const
-		{
-			return m_ProfileId;
-		}
-
-		Globals::PromptReq getPromptReq(void) const
-		{
-			return m_PromptReq;
-		}
-
-		//SET
-		void setAmount(const Currency& _Am)
-		{
-			m_Amount = _Am;
-		}
-
-		void setTransKind(const Globals::TransKind& _TK)
-		{
-			m_TransKind = _TK;
-		}
-
-		void setTransStatus(const Globals::TransStat _TS)
-		{
-			m_TransStatus = _TS;
-		}
-
-		void setCardType(const int _C)
-		{
-			m_CardType = _C;
-		}
-
-		void setPinPadMsg(const String& _Msg)
-		{
-			m_PinPadMsg = _Msg;
-		}
-
-		void setPPMSize(const int _Si)
-		{
-			m_PPMSize = _Si;
-		}
-
-		void setRespKind(const Globals::RespKind& _RK)
-		{
-			m_RespKind = _RK;
-		}
-
-		void setTimeOut(const int _Ti)
-		{
-			m_TimeOut = _Ti;
-		}
-
-		void setProfileId(const int _Pi)
-		{
-			m_ProfileId = _Pi;
-		}
-
-		void setPromptReq(const Globals::PromptReq _Re)
-		{
-			m_PromptReq = _Re;
-		}
-
-		void setFromString(const AnsiString& _Mess);
-
+		void setAmount(const Currency& _Am) 					 { m_Amount = _Am;  		}
+		void setTransKind(const Globals::TransKind& _TK)    { m_TransKind = _TK; 	}
+		void setTransStatus(const Globals::TransStat _TS)   { m_TransStatus = _TS;	}
+		void setCardType(const int _C) 							 { m_CardType = _C;		}
+		void setPinPadMsg(const String& _Msg)  				 {	m_PinPadMsg = _Msg;	}
+		void setPPMSize(const int _Si)  							 {	m_PPMSize = _Si;		}
+		void setRespKind(const Globals::RespKind& _RK)  	 {	m_RespKind = _RK;		}
+		void setTimeOut(const int _Ti)							 { m_TimeOut = _Ti;		}
+		void setProfileId(const int _Pi)  						 {	m_ProfileId = _Pi;	}
+		void setPromptReq(const Globals::PromptReq _Re)  	 {	m_PromptReq = _Re;	}
+      void setFromString(const AnsiString&);
 		void clear(void);
-		//KONSTRUKTORY
-		Message(void);
-		Message(const AnsiString& _Mess);
+      ~Message(void);
 
-		//OPERATORY
+
 	private:
-		//ATRYBUTY
-			 Globals::MessID m_MessID;
+      Message(MessageStringConverter*);
+      void copy(const Message&);
+
+      MessageStringConverter* message_string_converter;
+
+		Globals::MessID m_MessID;
 
 		int m_TermStatus;
 		int m_TermID;
+      String message_token;
 		Currency m_Amount;
 
 		Globals::TransKind m_TransKind;
@@ -159,9 +74,12 @@ namespace ecr
 
 		Globals::TransStat m_TransStatus;
 
-		String m_RawMess;
+		String message_as_string;
 		String m_PinPadMsg;
 		int m_PPMSize;
+      String ecr_ID;
+      String doc_ID;
+
 
 		Globals::RespKind m_RespKind;
 
@@ -170,9 +88,14 @@ namespace ecr
 
 		Globals::PromptReq m_PromptReq;
 
-		friend MessIDMask;
+		friend ItcardMessIDMask;
+		friend ItcardMessTokenMask;
+		friend PostcardMessIDMask;
 		friend TermStatusMask;
 		friend TermIDMask;
+		friend EcrIDMask;
+		friend DocIDMask;
+      friend MessageFactory;
 	};
 }//endnamespace
 //---------------------------------------------------------------------------

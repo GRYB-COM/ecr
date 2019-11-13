@@ -4,256 +4,382 @@
 #include "ECR_Message.h"
 #include "Globfunc.h"
 #include "ECR_Utils.h"
+#include "itcard_transaction_infos_repository.h"
+#include "itcard_transaction_result_statements_repository.h"
+#include <dialogs.hpp>
 //---------------------------------------------------------------------------
 using namespace ecr;
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
 //---------------------------------------------------------------------------
-AnsiString NullMask::getAsString(const Message& _Mess) const
+AnsiString NullMask::getAsString(const Message& message, const String& separator) const
 {
-	return Globals::SEPARATOR;
+	return separator;
 }
 
 //---------------------------------------------------------------------------
-void NullMask::setMessage(Message& _Mess, const StringContainer& _Source, const unsigned _Idx)
+void NullMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
 {
 }
-
 //---------------------------------------------------------------------------
-AnsiString MessIDMask::getAsString(const Message& _Mess) const
+AnsiString PostcardMessIDMask::getAsString(const Message& message, const String& separator) const
 {
-	AnsiString _Res(Globals::SEPARATOR);
-	_Res += _Mess.m_MessID;
+	AnsiString _Res(separator);
+	_Res += message.m_MessID;
 	return _Res;
 }
 
 //---------------------------------------------------------------------------
-void MessIDMask::setMessage(Message& _Mess, const StringContainer& _Source, const unsigned _Idx)
+void PostcardMessIDMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
 {
-	_Mess.m_MessID = static_cast<Globals::MessID>(_Source.getAsInt(_Idx));
+	message.m_MessID = static_cast<Globals::MessID>(_Source.getAsInt(_Idx));
 }
 
 //---------------------------------------------------------------------------
-AnsiString TermStatusMask::getAsString(const Message& _Mess) const
+AnsiString ItcardMessIDMask::getAsString(const Message& message, const String& separator) const
 {
-	AnsiString _Res(Globals::SEPARATOR);
-	_Res += _Mess.m_TermStatus;
+	AnsiString _Res(separator);
+   char* message_id("  ");
+	message_id[0] =  message.m_MessID>>8;
+   message_id[1]=   message.m_MessID;
+	_Res += message_id;
 	return _Res;
 }
 
 //---------------------------------------------------------------------------
-void TermStatusMask::setMessage(Message& _Mess, const StringContainer& _Source, const unsigned _Idx)
+void ItcardMessIDMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
 {
-	_Mess.m_TermStatus = _Source.getAsInt(_Idx);
+   AnsiString message_id_as_string(_Source[_Idx]);
+   unsigned short message_id(  message_id_as_string[1]<<8 );
+   message_id += message_id_as_string[2];
+	message.m_MessID = static_cast<Globals::MessID>(message_id);
+   message.m_TermID = 1001;
+}
+//---------------------------------------------------------------------------
+AnsiString ItcardMessTokenMask::getAsString(const Message& message, const String& separator) const
+{
+	return message.getMessageToken();
 }
 
 //---------------------------------------------------------------------------
-AnsiString TermIDMask::getAsString(const Message& _Mess) const
+void ItcardMessTokenMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
 {
-	AnsiString _Res(Globals::SEPARATOR);
-	_Res += _Mess.m_TermID;
+   AnsiString message_token_as_string(_Source[_Idx]);
+   while(message_token_as_string.Length() >1 && message_token_as_string[1] =='0')
+   {
+    message_token_as_string = message_token_as_string.SubString(2,message_token_as_string.Length()-1 );
+   }
+   message.message_token = message_token_as_string;
+}
+
+//---------------------------------------------------------------------------
+AnsiString TermStatusMask::getAsString(const Message& message, const String& separator) const
+{
+	AnsiString _Res(separator);
+	_Res += message.m_TermStatus;
 	return _Res;
 }
 
 //---------------------------------------------------------------------------
-void TermIDMask::setMessage(Message& _Mess, const StringContainer& _Source, const unsigned _Idx)
+void TermStatusMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
 {
-	_Mess.m_TermID =_Source.getAsInt(5);
+	message.m_TermStatus = _Source.getAsInt(_Idx);
 }
 
 //---------------------------------------------------------------------------
-AnsiString CipherMask::getAsString(const Message& _Mess) const
+AnsiString TermIDMask::getAsString(const Message& message, const String& separator) const
 {
-	AnsiString _Res(Globals::SEPARATOR);
+	AnsiString _Res(separator);
+	_Res += message.m_TermID;
+	return _Res;
+}
+
+//---------------------------------------------------------------------------
+void TermIDMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
+{
+	message.m_TermID =_Source.getAsInt(5);
+}
+
+//---------------------------------------------------------------------------
+AnsiString EcrIDMask::getAsString(const Message& message, const String& separator) const
+{
+	AnsiString _Res(separator);
+	_Res += message.ecr_ID;
+	return _Res;
+}
+
+//---------------------------------------------------------------------------
+void EcrIDMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
+{
+	message.doc_ID =_Source[_Idx];
+}
+
+AnsiString DocIDMask::getAsString(const Message& message, const String& separator) const
+{
+	AnsiString _Res(separator);
+	_Res += message.doc_ID;
+	return _Res;
+}
+
+//---------------------------------------------------------------------------
+void DocIDMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
+{
+	message.doc_ID =_Source[_Idx];
+}
+
+//---------------------------------------------------------------------------
+AnsiString CipherMask::getAsString(const Message& message, const String& separator) const
+{
+	AnsiString _Res(separator);
 	_Res += 0;
 	return _Res;
 }
 
 //---------------------------------------------------------------------------
-void CipherMask::setMessage(Message& _Mess, const StringContainer& _Source, const unsigned _Idx)
+void CipherMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
 {;
 }
 
 //---------------------------------------------------------------------------
-AnsiString TransTypeMask::getAsString(const Message& _Mess) const
+AnsiString TransTypeMask::getAsString(const Message& message, const String& separator) const
 {
-	AnsiString _Res(Globals::SEPARATOR);
-	_Res += FormatFloat("00", (int)_Mess.getTransKind());
+	AnsiString _Res(separator);
+	_Res += FormatFloat("00", (int)message.getTransKind());
 	return _Res;
 }
 
 //---------------------------------------------------------------------------
-void TransTypeMask::setMessage(Message& _Mess, const StringContainer& _Source, const unsigned _Idx)
+void TransTypeMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
 {
-	_Mess.setTransKind(static_cast<Globals::TransKind>(_Source.getAsInt(_Idx)));
+	message.setTransKind(static_cast<Globals::TransKind>(_Source.getAsInt(_Idx)));
 }
 
 //---------------------------------------------------------------------------
-AnsiString AmountMask::getAsString(const Message& _Mess) const
+AnsiString ItcardTransTypeMask::getAsString(const Message& message, const String& separator) const
 {
-	AnsiString _Res(Globals::SEPARATOR);
-	_Res += FormatFloat("000000000000", _Mess.getAmount() * 100);
+	AnsiString _Res(separator);
+   char  trans_kind_as_char(static_cast<char>(message.getTransKind()));
+	_Res += trans_kind_as_char;
 	return _Res;
 }
 
 //---------------------------------------------------------------------------
-void AmountMask::setMessage(Message& _Mess, const StringContainer& _Source, const unsigned _Idx)
+void ItcardTransTypeMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
 {
-	_Mess.setAmount(_Source.getAsInt(_Idx) / 100);
+   AnsiString trans_kind_as_string(_Source[_Idx]);
+   if(!trans_kind_as_string.IsEmpty())
+   {
+    unsigned short trans_kind_as_int( trans_kind_as_string[1]);
+	 message.setTransKind(static_cast<Globals::TransKind>(trans_kind_as_int) );
+   }
 }
 
 //---------------------------------------------------------------------------
-AnsiString CashBackMask::getAsString(const Message& _Mess) const
+AnsiString AmountMask::getAsString(const Message& message, const String& separator) const
 {
-	AnsiString _Res(Globals::SEPARATOR);
+	AnsiString _Res(separator);
+	_Res += FormatFloat("000000000000", message.getAmount() * 100);
 	return _Res;
 }
 
 //---------------------------------------------------------------------------
-void CashBackMask::setMessage(Message& _Mess, const StringContainer& _Source, const unsigned _Idx)
+void AmountMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
+{
+	message.setAmount(_Source.getAsInt(_Idx) / 100);
+}
+
+//---------------------------------------------------------------------------
+AnsiString CashBackMask::getAsString(const Message& message, const String& separator) const
+{
+	AnsiString _Res(separator);
+	return _Res;
+}
+
+//---------------------------------------------------------------------------
+void CashBackMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
 {
 	//_Mes =;
 }
 
 //---------------------------------------------------------------------------
-AnsiString CardTypeMask::getAsString(const Message& _Mess) const
+AnsiString CardTypeMask::getAsString(const Message& message, const String& separator) const
 {
-	AnsiString _Res(Globals::SEPARATOR);
+	AnsiString _Res(separator);
 	return _Res;
 }
 
 //---------------------------------------------------------------------------
-void CardTypeMask::setMessage(Message& _Mess, const StringContainer& _Source, const unsigned _Idx)
+void CardTypeMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
 {
-	_Mess.setCardType(_Source.getAsInt(_Idx));
+	message.setCardType(_Source.getAsInt(_Idx));
 }
 
 //---------------------------------------------------------------------------
-AnsiString TransStatusMask::getAsString(const Message& _Mess) const
+AnsiString TransStatusMask::getAsString(const Message& message, const String& separator) const
 {
-	AnsiString _Res(Globals::SEPARATOR);
+	AnsiString _Res(separator);
 	return _Res;
 }
 
 //---------------------------------------------------------------------------
-void TransStatusMask::setMessage(Message& _Mess, const StringContainer& _Source, const unsigned _Idx)
+void TransStatusMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
 {
-	_Mess.setTransStatus(static_cast<Globals::TransStat>(_Source.getAsInt(_Idx)));
+	message.setTransStatus(static_cast<Globals::TransStat>(_Source.getAsInt(_Idx)));
 }
 
 //---------------------------------------------------------------------------
-AnsiString PLNMask::getAsString(const Message& _Mess) const
+AnsiString PLNMask::getAsString(const Message& message, const String& separator) const
 {
-	AnsiString _Res(Globals::SEPARATOR);
+	AnsiString _Res(separator);
 	return _Res + 985;
 }
 
 //---------------------------------------------------------------------------
-void PLNMask::setMessage(Message& _Mess, const StringContainer& _Source, const unsigned _Idx)
+void PLNMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
 {
 
 }
 
 //---------------------------------------------------------------------------
-AnsiString PPMsgMask::getAsString(const Message& _Mess) const
+AnsiString CurrencyCodeMask::getAsString(const Message& message, const String& separator) const
 {
-	AnsiString _Res(Globals::SEPARATOR);
-	return _Res + _Mess.getPinPadMsg();
+	AnsiString _Res(separator);
+	return _Res + AnsiString("PLN");
 }
 
 //---------------------------------------------------------------------------
-void PPMsgMask::setMessage(Message& _Mess, const StringContainer& _Source, const unsigned _Idx)
+void CurrencyCodeMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
+{
+
+}
+
+//---------------------------------------------------------------------------
+AnsiString PPMsgMask::getAsString(const Message& message, const String& separator) const
+{
+	AnsiString _Res(separator);
+	return _Res + message.getPinPadMsg();
+}
+
+//---------------------------------------------------------------------------
+void PPMsgMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
 {
 	if (_Source.size() > _Idx)
 	{
-		_Mess.setPinPadMsg(_Source[_Idx]);
+		message.setPinPadMsg(_Source[_Idx]);
 	}
 }
 
 //---------------------------------------------------------------------------
-AnsiString PPMSizeMask::getAsString(const Message& _Mess) const
+AnsiString PPMSizeMask::getAsString(const Message& message, const String& separator) const
 {
-	AnsiString _Res(Globals::SEPARATOR);
-	return _Res + FormatFloat("000", _Mess.getPPMSize());
+	AnsiString _Res(separator);
+	return _Res + FormatFloat("000", message.getPPMSize());
 }
 
 //---------------------------------------------------------------------------
-void PPMSizeMask::setMessage(Message& _Mess, const StringContainer& _Source, const unsigned _Idx)
+void PPMSizeMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
 {
 	if (_Source.size() > _Idx)
 	{
-		_Mess.setPPMSize(_Source.getAsInt(_Idx));
+		message.setPPMSize(_Source.getAsInt(_Idx));
 	}
 }
 
 //---------------------------------------------------------------------------
-AnsiString PPMRespMask::getAsString(const Message& _Mess) const
+AnsiString PPMRespMask::getAsString(const Message& message, const String& separator) const
 {
-	AnsiString _Res(Globals::SEPARATOR);
-	return _Res + FormatFloat("00", static_cast<double>(_Mess.getRespKind()));
+	AnsiString _Res(separator);
+	return _Res + FormatFloat("00", static_cast<double>(message.getRespKind()));
 }
 
 //---------------------------------------------------------------------------
-void PPMRespMask::setMessage(Message& _Mess, const StringContainer& _Source, const unsigned _Idx)
+void PPMRespMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
 {
 	if (_Source.size() > _Idx)
 	{
-		_Mess.setRespKind(static_cast<Globals::RespKind>(_Source.getAsInt(_Idx)));
+		message.setRespKind(static_cast<Globals::RespKind>(_Source.getAsInt(_Idx)));
 	}
 }
 
 //---------------------------------------------------------------------------
-AnsiString TimeOutMask::getAsString(const Message& _Mess) const
+AnsiString TimeOutMask::getAsString(const Message& message, const String& separator) const
 {
-	AnsiString _Res(Globals::SEPARATOR);
-	return _Res + _Mess.getTimeOut();
+	AnsiString _Res(separator);
+	return _Res + message.getTimeOut();
 }
 
 //---------------------------------------------------------------------------
-void TimeOutMask::setMessage(Message& _Mess, const StringContainer& _Source, const unsigned _Idx)
+void TimeOutMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
 {
 	if (_Source.size() > _Idx)
 	{
-		_Mess.setTimeOut(_Source.getAsInt(_Idx));
+		message.setTimeOut(_Source.getAsInt(_Idx));
 	}
 }
 
 //---------------------------------------------------------------------------
-AnsiString ZeroMask::getAsString(const Message& _Mess) const
+AnsiString ZeroMask::getAsString(const Message& message, const String& separator) const
 {
-	AnsiString _Res(Globals::SEPARATOR);
+	AnsiString _Res(separator);
 	return _Res + "000";
 }
 
 //---------------------------------------------------------------------------
-void ZeroMask::setMessage(Message& _Mess, const StringContainer& _Source, const unsigned _Idx)
+void ZeroMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
 {
 }
 
 //---------------------------------------------------------------------------
-AnsiString ProfileIdMask::getAsString(const Message& _Mess) const
+AnsiString ProfileIdMask::getAsString(const Message& message, const String& separator) const
 {
-	AnsiString _Res(Globals::SEPARATOR);
-	return _Res + FormatFloat("00", static_cast<double>(_Mess.getProfileId()));
+	AnsiString _Res(separator);
+	return _Res + FormatFloat("00", static_cast<double>(message.getProfileId()));
 }
 
 //---------------------------------------------------------------------------
-void ProfileIdMask::setMessage(Message& _Mess, const StringContainer& _Source, const unsigned _Idx)
+void ProfileIdMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
 {
-	_Mess.setProfileId(_Source.getAsInt(_Idx));
+	message.setProfileId(_Source.getAsInt(_Idx));
 }
 
 //---------------------------------------------------------------------------
-AnsiString PromptReqMask::getAsString(const Message& _Mess) const
+AnsiString PromptReqMask::getAsString(const Message& message, const String& separator) const
 {
-	AnsiString _Res(Globals::SEPARATOR);
-	return _Res + FormatFloat("00", _Mess.getPromptReq());
+	AnsiString _Res(separator);
+	return _Res + FormatFloat("00", message.getPromptReq());
 }
 
 //---------------------------------------------------------------------------
-void PromptReqMask::setMessage(Message& _Mess, const StringContainer& _Source, const unsigned _Idx)
+void PromptReqMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
 {
-	_Mess.setPromptReq(static_cast<Globals::PromptReq>(_Source.getAsInt(_Idx)));
+	message.setPromptReq(static_cast<Globals::PromptReq>(_Source.getAsInt(_Idx)));
+}
+//---------------------------------------------------------------------------
+AnsiString ItcardTransInfoMask::getAsString(const Message& message, const String& separator) const
+{
+	AnsiString _Res("");
+	return _Res;
+}
+
+//---------------------------------------------------------------------------
+void ItcardTransInfoMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
+{
+	message.setPinPadMsg(ItcardTransactionInfosRepository::instance().get(_Source[_Idx].ToInt()) );
+}
+//---------------------------------------------------------------------------
+AnsiString ItcardTransResultInfoMask::getAsString(const Message& message, const String& separator) const
+{
+	AnsiString _Res("");
+	return _Res;
+}
+
+//---------------------------------------------------------------------------
+void ItcardTransResultInfoMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
+{
+   unsigned short result_code( _Source[_Idx].ToInt() );
+	message.setPinPadMsg(ItcardTransactionResultStatementsRepository::instance().get(result_code) );
+   message.setTransStatus(result_code ==0 ? Globals::tsApproval : Globals::tsTransAbort );
+
 }
 //---------------------------------------------------------------------------

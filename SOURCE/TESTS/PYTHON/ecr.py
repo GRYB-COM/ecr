@@ -83,12 +83,16 @@ class Ecr(object):
             if char == 'x':
                 logging.info('Exit by pressing {char} key')
                 exit()
+            elif char == 'd':
+                send_frame(ser, [self.ecrtoken(), 'D4'])
+            elif char == 't':
+                send_frame(ser, [self.ecrtoken(), 'T1'])
             elif char == 'q':
                 send_frame(ser, [self.ecrtoken(), 'P1'])
             elif char == 's':
                 token, ptype, operation = self.ecrtoken(), 'S1', 'S'
                 ecrid, ecrinvid = 'ABC1234567890', '6'
-                amo, netto, vat, cur = '928', '828', '100', 'PLN'
+                amo, netto, vat, cur = '128', '100', '28', 'PLN'
                 cashback, maxcashback = '0', '30000'
                 fields = [token, ptype, operation, ecrid, ecrinvid, amo, netto, vat, 'PLN', cashback, maxcashback]
                 send_frame(ser, fields)

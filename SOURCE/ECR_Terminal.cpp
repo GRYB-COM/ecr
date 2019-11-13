@@ -2,105 +2,98 @@
 #pragma hdrstop
 #include "ECR_Terminal.h"
 #include "ECR_Message.h"
-#include "ECR_ITerminal.h"
-#include "ECR_Factories.h"
-#include "ECR_Globals.h"
 #include "ECR_Exceptions.h"
+#include "ECR_CommunicationFactory.h"
+#include "ECR_CommunicationInterface.h"
+#include "ECR_TerminalFactory.h"
+#include "ECR_terminal_interface.h"
+#include "message_factory.h"
+#include "message_template_repository.h"
+#include "ECR_Utils.h"
+#include "message_string_converter.h"
+#include "ECR_TransStatDescr.h"
+#include <dialogs.hpp>
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
 using namespace ecr;
 
 //---------------------------------------------------------------------------
-Terminal::Terminal(void) : m_TermID(-1)
+Terminal::Terminal(const Pars& params_,ecr::IObserver& observer )
+:terminal_ID(1001),
+ params(params_)
 {
-}
+   CommunicationInterface * communication_interface(CommunicationFactory::create(params));
+   communication_interface->setObserver(observer);
 
+   MessageTemplateRepository * message_template_repository(new MessageTemplateRepository );
+   String field_separator_code(Utils::getSeparator(params) );
+   MessageStringConverter::Parameters converter_parameters;
+   converter_parameters.field_separator_code=field_separator_code;
+   converter_parameters.first_field_index =0;
+   converter_parameters.message_id_frame_position = params.terminal_kind == Globals::tkiPostcardTCIP ? Globals::POSTCARD_MESSAGE_ID_FRAME_POSITION : Globals::ITCARD_MESSAGE_ID_FRAME_POSITION;
+   converter_parameters.message_id_field_kind     = params.terminal_kind == Globals::tkiPostcardTCIP ? Globals::fkPostcardMessID : Globals::fkItcardMessID;
+   MessageStringConverter* message_string_converter(new  MessageStringConverter(converter_parameters) );
+   MessageFactory* message_factory(new MessageFactory(message_template_repository, message_string_converter) );
+
+   terminal_interface = TerminalFactory::create(params.terminal_kind, communication_interface, message_factory);
+}
 //---------------------------------------------------------------------------
 Terminal::~Terminal(void)
 {
-	TerminalFCTR::instance().get(Globals::tmkIndy).clearObserver();
+   delete terminal_interface;
 }
-
-//---------------------------------------------------------------------------
-ITerminal& Terminal::prepare(void)
-{
-	ITerminal & _Term= TerminalFCTR::instance().get(Globals::tmkIndy);
-	_Term.setPars(m_Pars);
-	return _Term;
-}
-
 //---------------------------------------------------------------------------
 Globals::TransStat Terminal::hello(void)
 {
-	ITerminal & _Term= prepare();
-	Message _Mess = MessageFCTR::instance().get(Globals::miECRHello);
-	Message _CMess = MessageFCTR::instance().get(Globals::miPOSHello);
-	_CMess.setTimeOut(Globals::TIME_A);
-	_Mess = _Term.send(_Mess, _CMess);
-	if (_Mess.getMessID() == Globals::miPOSHello)
+   Globals::TransStat transaction_status(Globals::tsUnknown);
+   try{
+		Message return_message (terminal_interface->hello());
+		transaction_status = return_message.getTransStatus();
+   }
+  	catch (Exception& exc)
 	{
-		m_TermID = _Mess.getTermID();
-		_Mess.setTransStatus(Globals::tsApproval);
+      TransStatDescr::m_LastError =exc.Message;
+		transaction_status = Globals::tsConnErr;
 	}
-	return _Mess.getTransStatus();
+  	catch (...)
+	{
+		transaction_status = Globals::tsConnErr;
+      TransStatDescr::m_LastError ="Nieznany b³¹d! (PROCEDURA HELLO) ";
+
+	}
+	return transaction_status;
+
 }
 
 //---------------------------------------------------------------------------
-Globals::TransStat Terminal::sale(const Currency& _Amount, const short _ProfileId, const Globals::TransKind& _Kind)
+Globals::TransStat Terminal::sale(const Currency& amount, const short profile_ID, const Globals::TransKind& trans_kind)
 {
-	Globals::TransStat _Res(Globals::tsUnknown);
-	Message _Mess = MessageFCTR::instance().get(_ProfileId > 0 ? Globals::miECRStartExt : Globals::miECRStart);
-	Message _CMess = MessageFCTR::instance().get(Globals::miPOSFinish);
+	Globals::TransStat transaction_status(Globals::tsUnknown);
 	try
 	{
-		ITerminal & _Term= prepare();
-		_Mess.setAmount(_Amount);
-		_Mess.setTransKind(_Kind);
-		_Mess.setProfileId(_ProfileId);
-		_Mess = _Term.send(_Mess, _CMess);
-		_Res = _Mess.getTransStatus();
+		Message return_message = terminal_interface->sale(amount,profile_ID,trans_kind);
+		transaction_status = return_message.getTransStatus();
+
 	}
 	catch (...)
 	{
-		_Res = Globals::tsTransAbort;
+		transaction_status = Globals::tsConnErr;
+      TransStatDescr::m_LastError ="Nieznany b³¹d! (PROCEDURA SALE) ";
 	}
-	return _Res;
+	return transaction_status;
 }
 
 //---------------------------------------------------------------------------
-Globals::TransStat Terminal::resp(const Globals::RespKind _RK, const unsigned short _Val)
+Globals::TransStat Terminal::resp(const Globals::RespKind response_kind, const unsigned short value)
 {
-	String _Msg(_Val);
-	Message _Mess = MessageFCTR::instance().get(Globals::miECRDisp);
-	_Mess.setRespKind(_RK);
-	_Mess.setPinPadMsg(_Msg);
-	_Mess.setPPMSize(_Msg.Length());
-	ITerminal & _Term= TerminalFCTR::instance().get(Globals::tmkIndy);
-	_Term.resp(_Mess);
-	return Globals::tsApproval;
+	Message return_message(terminal_interface->resp(response_kind,value));
+	return return_message.getTransStatus();
 }
 
 //---------------------------------------------------------------------------
-void Terminal::setObserver(IObserver& _Obs)
-{
-	ITerminal & _Term= TerminalFCTR::instance().get(Globals::tmkIndy);
-	_Term.setObserver(_Obs);
-}
 
-//---------------------------------------------------------------------------
-String Terminal::getProfileList(const int _TimeOut)
+String Terminal::getProfileList(const int time_out)
 {
-	String _Res;
-	Message _Mess = MessageFCTR::instance().get(Globals::miECRPrompt);
-	Message _CMess = MessageFCTR::instance().get(Globals::miPOSPrompt);
-	_CMess.setTimeOut(_TimeOut > Globals::TIME_A ? _TimeOut : Globals::TIME_A);
-	ITerminal & _Term= prepare();
-	_Mess.setPromptReq(Globals::PromptReq::prProfileList);
-	_Mess = _Term.send(_Mess, _CMess);
-	if (_Mess.getTransStatus() == Globals::tsConnErr)
-		throw ECRNoConnectionException(Globals::getTransStatDescr(Globals::tsConnErr));
-
-	_Res = _Mess.getPinPadMsg();
-	return _Res;
+	return terminal_interface->getProfileList(time_out);
 
 }

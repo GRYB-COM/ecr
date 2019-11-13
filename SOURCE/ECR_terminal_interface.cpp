@@ -2,6 +2,6 @@
 
 #pragma hdrstop
 
-#include "ECR_ITerminal.h"
+#include "ECR_terminal_interface.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)

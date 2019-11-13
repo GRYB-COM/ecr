@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef ECR_ITerminalH
-#define ECR_ITerminalH
+#ifndef ECR_CommunicationInterfaceH
+#define ECR_CommunicationInterfaceH
 
 namespace ecr
 {
@@ -9,21 +9,20 @@ namespace ecr
 	class Pars;
 	class IObserver;
 
-	class ITerminal
+	class CommunicationInterface
 	{
 	public:
 		//INTERFEJS
-		virtual void setPars(const Pars& _Pars)=0;
 		virtual void setObserver(IObserver& _Obs)=0;
 		virtual void clearObserver(void)=0;
 		virtual Message send(const Message& _Mess, const Message& _CloseMess)=0;
 		virtual void resp(const Message& _Mess)=0;
 
 		//DESTRUKTOR
-		virtual ~ITerminal()
+		virtual ~CommunicationInterface()
 		{
 		}
 	};
-}//end namespace
+}
 //---------------------------------------------------------------------------
 #endif

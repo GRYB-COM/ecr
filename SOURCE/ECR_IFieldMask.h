@@ -13,9 +13,8 @@ namespace ecr
 	{
 	public:
 		//INTERFEJS
-		virtual AnsiString getAsString(const Message& _Mess) const =0;
-		virtual void setMessage(Message& _Mess, const StringContainer&, const unsigned)=0;
-
+		virtual AnsiString getAsString(const Message&, const String& separator) const =0;
+		virtual void        setMessage(Message& _Mess, const StringContainer&, const unsigned)=0;
 		//DESTRUKTOR
 		virtual ~IFieldMask()
 		{
