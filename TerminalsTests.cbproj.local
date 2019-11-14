@@ -1,22 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>1899-12-30 00:00:00.000.553,=P:\ECR\Unit1.cpp</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.353,=P:\_LIBRARY\isManager250.lib</Transaction>
     <Transaction>1899-12-30 00:00:00.000.172,=P:\ECR\Unit1.cpp</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.255,P:\_LIBRARY\isManager250.lib=</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.553,=P:\ECR\Unit1.cpp</Transaction>
     <Transaction>1899-12-30 00:00:00.000.913,=P:\ECR\Unit1.cpp</Transaction>
     <Transaction>1899-12-30 00:00:00.000.348,P:\ECR\Unit1.cpp=P:\ECR\SOURCE\Unit1.cpp</Transaction>
     <Transaction>1899-12-30 00:00:00.000.110,=P:\PROJECTS\LIABILITY_ACCOUNTING\Unit1.cpp</Transaction>
     <Transaction>1899-12-30 00:00:00.000.641,P:\ECR\TerminalsTests.cbproj=P:\PROJECTS\LIABILITY_ACCOUNTING\Project1.cbproj</Transaction>
     <Transaction>1899-12-30 00:00:00.000.348,P:\ECR\Unit1.h=P:\ECR\SOURCE\Unit1.h</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.255,P:\_LIBRARY\isManager250.lib=</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.353,=P:\_LIBRARY\isManager250.lib</Transaction>
     <Transaction>1899-12-30 00:00:00.000.022,=P:\ECR\File1.h</Transaction>
     <Transaction>1899-12-30 00:00:00.000.358,=P:\ECR\Unit1.cpp</Transaction>
     <Transaction>1899-12-30 00:00:00.000.469,P:\ECR\SOURCE\Unit1.cpp=</Transaction>
     <Transaction>1899-12-30 00:00:00.000.027,P:\ECR\SOURCE\REPOSITORIES\itcard_transaction_result_statements_repository.cpp=P:\ECR\Unit1.cpp</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.935,=P:\ECR\SOURCE\TESTS\CPP\is_exceptions.cpp</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.027,P:\ECR\SOURCE\REPOSITORIES\itcard_transaction_result_statements_repository.h=P:\ECR\Unit1.h</Transaction>
     <Transaction>1899-12-30 00:00:00.000.440,=P:\ECR\DEBUG\LIB\IsECR250.lib</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.027,P:\ECR\SOURCE\REPOSITORIES\itcard_transaction_result_statements_repository.h=P:\ECR\Unit1.h</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.935,=P:\ECR\SOURCE\TESTS\CPP\is_exceptions.cpp</Transaction>
     <Transaction>1899-12-30 00:00:00.000.348,P:\ECR\Unit1.dfm=P:\ECR\SOURCE\Unit1.dfm</Transaction>
     <Transaction>1899-12-30 00:00:00.000.006,P:\ECR\SOURCE\TESTS\CPP\it_card_terminal_tests.cpp=P:\PROJECTS\LIABILITY_ACCOUNTING\Unit1.cpp</Transaction>
     <Transaction>1899-12-30 00:00:00.000.006,P:\ECR\SOURCE\TESTS\CPP\it_card_terminal_tests.h=P:\PROJECTS\LIABILITY_ACCOUNTING\Unit1.h</Transaction>
