@@ -319,6 +319,30 @@ void TimeOutMask::setMessage(Message& message, const StringContainer& _Source, c
 }
 
 //---------------------------------------------------------------------------
+AnsiString TLVBlockLengthMask::getAsString(const Message& message, const String& separator) const
+{
+	AnsiString _Res(separator);
+	return _Res + message.getTLVBlockLength();
+}
+
+//---------------------------------------------------------------------------
+void TLVBlockLengthMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
+{
+}
+
+//---------------------------------------------------------------------------
+AnsiString TLVBlockMask::getAsString(const Message& message, const String& separator) const
+{
+	AnsiString _Res(separator);
+	return _Res + message.getTLVBlock();
+}
+
+//---------------------------------------------------------------------------
+void TLVBlockMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
+{
+}
+
+//---------------------------------------------------------------------------
 AnsiString ZeroMask::getAsString(const Message& message, const String& separator) const
 {
 	AnsiString _Res(separator);
@@ -327,6 +351,18 @@ AnsiString ZeroMask::getAsString(const Message& message, const String& separator
 
 //---------------------------------------------------------------------------
 void ZeroMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
+{
+}
+
+//---------------------------------------------------------------------------
+AnsiString OneMask::getAsString(const Message& message, const String& separator) const
+{
+	AnsiString _Res(separator);
+	return _Res + "1";
+}
+
+//---------------------------------------------------------------------------
+void OneMask::setMessage(Message& message, const StringContainer& _Source, const unsigned _Idx)
 {
 }
 

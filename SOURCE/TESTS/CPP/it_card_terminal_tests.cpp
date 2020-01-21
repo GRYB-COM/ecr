@@ -52,7 +52,6 @@ void __fastcall ITCardTerminalTests::Test2()
  ecr::MessageStringConverter::Parameters converter_parameters;
    converter_parameters.field_separator_code=ecr::Globals::RS_ITCARD_SEPARATOR;
    converter_parameters.first_field_index =0;
-   converter_parameters.message_id_frame_position = ecr::Globals::ITCARD_MESSAGE_ID_FRAME_POSITION;
    converter_parameters.message_id_field_kind     = ecr::Globals::fkItcardMessID;
  ecr::MessageStringConverter * message_string_converter( new ecr::MessageStringConverter(converter_parameters) );
  ecr::MessageTemplateRepository * message_template_repository( new ecr::MessageTemplateRepository );
@@ -148,8 +147,8 @@ void __fastcall ITCardTerminalTests::Test6()
 
 
 
-static void registerTests()
-{
-  TDUnitX::RegisterTestFixture(__classid(ITCardTerminalTests));
-}
-#pragma startup registerTests 33
+//static void registerTests()
+//{
+//  TDUnitX::RegisterTestFixture(__classid(ITCardTerminalTests));
+//}
+//#pragma startup registerTests 33

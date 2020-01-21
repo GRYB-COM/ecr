@@ -23,8 +23,11 @@ FieldMaskRepository::FieldMaskRepository(void)
 	operator[](Globals::fkPPMsg) =new PPMsgMask();
 	operator[](Globals::fkPPMSize) =new PPMSizeMask();
 	operator[](Globals::fkPPMResp) =new PPMRespMask();
+	operator[](Globals::fkTLVBlockLength) =new TLVBlockLengthMask();
+	operator[](Globals::fkTLVBlock) =new TLVBlockMask();
 	operator[](Globals::fkTimeOut) =new TimeOutMask();
 	operator[](Globals::fkZero) =new ZeroMask();
+	operator[](Globals::fkOne) =new OneMask();
 	operator[](Globals::fkProfileId) =new ProfileIdMask();
 	operator[](Globals::fkPromptReq) =new PromptReqMask();
 

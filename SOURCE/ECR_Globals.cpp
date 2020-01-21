@@ -20,8 +20,7 @@ const String			Globals::GENERATE_TOKEN("");
 const String			Globals::DEFAULT_TOKEN("000001");
 const unsigned short Globals::SEND_ATTEMPT_TIMES(3);
 const unsigned short Globals::CONFIRMATION_WAIT_TIME(3000);
-const unsigned short Globals::POSTCARD_MESSAGE_ID_FRAME_POSITION(1);
-const unsigned short Globals::ITCARD_MESSAGE_ID_FRAME_POSITION(1);
+const unsigned short Globals::CONNECTION_WAIT_TIME(800);
 
 //---------------------------------------------------------------------------
 String Globals::getTransStatDescr(const TransStat& _Stat)

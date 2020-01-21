@@ -18,14 +18,10 @@ PostcardTCPIPTerminal::PostcardTCPIPTerminal(CommunicationInterface * communicat
 //---------------------------------------------------------------------------
 Message PostcardTCPIPTerminal::hello(void)
 {
-	Message ecr_message = message_factory->createMessage(Globals::miECRPostcardHello,Globals::DEFAULT_TOKEN);
-	Message pos_message = message_factory->createMessage(Globals::miPOSPostcardHello,Globals::DEFAULT_TOKEN);
+	Message ecr_message = message_factory->createMessage(Globals::miECRPostcardHelloExt,Globals::DEFAULT_TOKEN);
+	Message pos_message = message_factory->createMessage(Globals::miPOSPostcardHelloExt,Globals::DEFAULT_TOKEN);
 	pos_message.setTimeOut(Globals::TIME_A);
 	ecr_message = communication_interface->send(ecr_message, pos_message);
-	if (ecr_message.getMessID() == Globals::miPOSPostcardHello)
-	{
-		ecr_message.setTransStatus(Globals::tsApproval);
-	}
 	return ecr_message;
 
 }

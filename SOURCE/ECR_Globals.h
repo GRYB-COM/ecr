@@ -12,10 +12,14 @@ namespace ecr
 		//KLASY WEWNÊTRZNE
 		enum MessID
 		{
-			miUnknown=-1, miECRPostcardHello=2841011, miECRPostcardHelloExt=2841111, miPOSPostcardHello=2840000, miECRPostcardStart=2811011, miECRPostcardStartExt=2811111,
-         miPOSPostcardFinish=2810000, miPinPadPostcardDisp=2820010, miECRPostcardDisp= 2821000, miECRPostcardPrompt=2821211, miPOSPostcardPrompt=2820200,
-         miECRItcardHello=0x5431, miPOSItcardHello=0x5432, miECRItcardSale=0x5331, miPOSItcardSale=0x5332, miECRItcardPars=0x4434, miPOSItcardPars=0x4435,
-         miPOSItcardPrompt=0x4931,miPOSItcardPrompt1=0x4B33
+			miUnknown=-1, 									miECRPostcardHello=2841011, 		miECRPostcardHelloExt=2841111,
+         miPOSPostcardHello=2840000, 				miPOSPostcardHelloExt=2840100,   miECRPostcardStart=2811011,
+         miECRPostcardStartExt=2811111,   		miPOSPostcardFinish=2810000, 		miPinPadPostcardDisp=2820010,
+         miECRPostcardDisp= 2821000, 				miECRPostcardPrompt=2821211, 		miPOSPostcardPrompt=2820200,
+         miPOSPostCardExtendWaitTime=2830110,
+         miECRItcardHello=0x5431, 					miPOSItcardHello=0x5432, 			miECRItcardSale=0x5331,
+         miPOSItcardSale=0x5332, 					miECRItcardPars=0x4434, 			miPOSItcardPars=0x4435,
+         miPOSItcardPrompt=0x4931,					miPOSItcardPrompt1=0x4B33
 		};
 
 		enum FieldKind
@@ -23,7 +27,8 @@ namespace ecr
 			fkNull=0, fkPostcardMessID, fkTermStatus, fkTermID,
          fkCipher, fkTransType, fkAmount, fkCashBack, fkCardType,
          fkTransStatus, fkPLN, fkPPMsg, fkPPMSize,
-			fkPPMResp, fkTimeOut, fkZero, fkProfileId, fkPromptReq,
+			fkPPMResp, fkTLVBlockLength, fkTLVBlock,
+         fkTimeOut, fkZero, fkOne,fkProfileId, fkPromptReq,
          fkItcardMessID, fkItcardMessToken, fkItcardTransType,
          fkEcrID, fkDocID, fkCurrencyCode, fkItcardTransInfo, fkItcardTransResultInfo
 
@@ -75,8 +80,7 @@ namespace ecr
       static const String         DEFAULT_TOKEN;
       static const unsigned short SEND_ATTEMPT_TIMES;
       static const unsigned short CONFIRMATION_WAIT_TIME;
-      static const unsigned short POSTCARD_MESSAGE_ID_FRAME_POSITION;
-      static const unsigned short ITCARD_MESSAGE_ID_FRAME_POSITION;
+      static const unsigned short CONNECTION_WAIT_TIME;
 
 		//FUNKCJE
 		static String getTransStatDescr(const TransStat& _Stat);

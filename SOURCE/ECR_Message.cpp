@@ -8,13 +8,17 @@
 using namespace ecr;
 //---------------------------------------------------------------------------
 Message::Message(MessageStringConverter* message_string_converter_)
-:message_string_converter(new MessageStringConverter(*message_string_converter_) )
+:message_string_converter(new MessageStringConverter(*message_string_converter_) ),
+ tlv_block_length("0070"),
+ tlv_block("1C1000164B41534120552E20492E20494E464F2D53595354454D1C110006323032302E311C120013323032302F30312F30352031363A30303A30301C19000730303436303130")
 {
 	clear();
 }
 //---------------------------------------------------------------------------
 Message::Message(const Message& message)
-:message_string_converter(NULL)
+:message_string_converter(NULL),
+ tlv_block_length("0070"),
+ tlv_block("1C1000164B41534120552E20492E20494E464F2D53595354454D1C110006323032302E311C120013323032302F30312F30352031363A30303A30301C19000730303436303130")
 {
   copy(message);
 }
@@ -23,8 +27,11 @@ Message::Message(const Message& message)
 void Message::copy(const Message& message)
 {
  clear();
- if(message_string_converter) delete message_string_converter;
- if(message.message_string_converter) message_string_converter = new MessageStringConverter(*message.message_string_converter);
+ if(message.message_string_converter)
+ {
+  if(message_string_converter) delete message_string_converter;
+  message_string_converter = new MessageStringConverter(*message.message_string_converter);
+ }
   m_MessID          = message.m_MessID;
   m_TermStatus      = message.m_TermStatus;
   m_TermID          = message.m_TermID;

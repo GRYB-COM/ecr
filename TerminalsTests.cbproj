@@ -5,7 +5,7 @@
         <FrameworkType>None</FrameworkType>
         <MainSource>TerminalsTests.cpp</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Console</AppType>
@@ -91,6 +91,7 @@
         <VerInfo_Locale>1045</VerInfo_Locale>
         <IncludePath>SOURCE;$(IncludePath)</IncludePath>
         <AllPackageLibs>rtl.lib;IndySystem.lib;IndyCore.lib</AllPackageLibs>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Android)'!=''">
         <PackageImports>bindcomp;bindcompdbx;bindcompfmx;bindengine;CustomIPTransport;DataSnapClient;DataSnapCommon;DataSnapNativeClient;DataSnapProviderClient;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXSqliteDriver;dsnap;dsnapxml;FireDACDBXDriver;FireDACDSDriver;fmx;fmxFireDAC;FMXTee;FmxTeeUI;ibmonitor;ibxbindings;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;rtl;tethering;xmlrtl;$(PackageImports)</PackageImports>
@@ -170,6 +171,10 @@
         <CppCompile Include="SOURCE\TESTS\CPP\it_card_terminal_tests.cpp">
             <DependentOn>SOURCE\TESTS\CPP\it_card_terminal_tests.h</DependentOn>
             <BuildOrder>1</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="SOURCE\TESTS\CPP\post_card_terminal_tests.cpp">
+            <DependentOn>SOURCE\TESTS\CPP\post_card_terminal_tests.h</DependentOn>
+            <BuildOrder>5</BuildOrder>
         </CppCompile>
         <CppCompile Include="TerminalsTests.cpp">
             <BuildOrder>0</BuildOrder>

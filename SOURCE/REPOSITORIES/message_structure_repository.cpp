@@ -13,7 +13,10 @@ MessageStructureRepository::MessageStructureRepository(void)
 {
 	operator[](Globals::miUnknown) += Globals::fkPostcardMessID, Globals::fkNull;
 	operator[](Globals::miECRPostcardHello) += Globals::fkPostcardMessID, Globals::fkCipher, Globals::fkNull, Globals::fkNull, Globals::fkNull, Globals::fkNull, Globals::fkNull;
+	operator[](Globals::miECRPostcardHelloExt) += Globals::fkPostcardMessID, Globals::fkCipher, Globals::fkNull, Globals::fkNull, Globals::fkNull, Globals::fkNull,
+   	 Globals::fkOne, Globals::fkTLVBlockLength, Globals::fkTLVBlock,Globals::fkNull;
 	operator[](Globals::miPOSPostcardHello) += Globals::fkPostcardMessID, Globals::fkTermStatus, Globals::fkNull, Globals::fkNull, Globals::fkTermID;
+	operator[](Globals::miPOSPostcardHelloExt) += Globals::fkPostcardMessID, Globals::fkTermStatus, Globals::fkNull, Globals::fkNull, Globals::fkTermID;
 	operator[](Globals::miECRPostcardStart) += Globals::fkPostcardMessID, Globals::fkTransType, Globals::fkAmount, Globals::fkNull, Globals::fkNull, Globals::fkNull,
 		 Globals::fkNull, Globals::fkPLN, Globals::fkNull, Globals::fkNull, Globals::fkNull;
 	operator[](Globals::miECRPostcardStartExt) += Globals::fkPostcardMessID, Globals::fkTransType, Globals::fkZero, Globals::fkAmount, Globals::fkNull, Globals::fkNull,

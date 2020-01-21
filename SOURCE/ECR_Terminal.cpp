@@ -29,8 +29,7 @@ Terminal::Terminal(const Pars& params_,ecr::IObserver& observer )
    String field_separator_code(Utils::getSeparator(params) );
    MessageStringConverter::Parameters converter_parameters;
    converter_parameters.field_separator_code=field_separator_code;
-   converter_parameters.first_field_index =0;
-   converter_parameters.message_id_frame_position = params.terminal_kind == Globals::tkiPostcardTCIP ? Globals::POSTCARD_MESSAGE_ID_FRAME_POSITION : Globals::ITCARD_MESSAGE_ID_FRAME_POSITION;
+   converter_parameters.first_field_index =params.terminal_kind == Globals::tkiPostcardTCIP ? 1 : 0;
    converter_parameters.message_id_field_kind     = params.terminal_kind == Globals::tkiPostcardTCIP ? Globals::fkPostcardMessID : Globals::fkItcardMessID;
    MessageStringConverter* message_string_converter(new  MessageStringConverter(converter_parameters) );
    MessageFactory* message_factory(new MessageFactory(message_template_repository, message_string_converter) );
@@ -49,6 +48,7 @@ Globals::TransStat Terminal::hello(void)
    try{
 		Message return_message (terminal_interface->hello());
 		transaction_status = return_message.getTransStatus();
+      if(transaction_status == Globals::tsApproval) terminal_ID = return_message.getTermID();
    }
   	catch (Exception& exc)
 	{

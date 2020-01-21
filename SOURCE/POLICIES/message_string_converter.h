@@ -8,6 +8,7 @@ namespace ecr{
    class Message;
    class MessageStructureRepository;
    class FieldMaskRepository;
+	class StringContainer;
    class MessageStringConverter{
    public:
       struct Parameters{
@@ -18,10 +19,11 @@ namespace ecr{
       };
       MessageStringConverter(const Parameters&);
       MessageStringConverter(const MessageStringConverter&);
-      void convertStringToMessage(Message&,const AnsiString&);
+      void convertStringToMessage(Message&, const AnsiString&);
       void convertMessageToString(AnsiString&,const Message&);
       ~MessageStringConverter(void);
    private:
+      void readMessIDFromString(Message&,const StringContainer&)const;
       MessageStructureRepository* message_structure_repository;
       FieldMaskRepository*        field_mask_repository;
       AnsiString                  field_separator_code;

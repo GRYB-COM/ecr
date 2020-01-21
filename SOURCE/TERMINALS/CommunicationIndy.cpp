@@ -72,7 +72,14 @@ void CommunicationIndy::connectToTerminal(void)
 			try
 			{
 				indy_tcp_client->Connect();
-			}
+            Sleep(Globals::CONNECTION_WAIT_TIME);
+            checkForDisconnect();
+         }
+         catch(EIdConnClosedGracefully& exc)
+         {
+            exc.Message = "Terminal nie jest skonfigurowany do pracy z tym komputerem!\nKonieczny kontakt z serwisem.";
+            throw;
+         }
 			catch (EIdAlreadyConnected& exc)
 			{
 				if (indy_tcp_client->Socket) 		indy_tcp_client->Socket->Close();
@@ -80,6 +87,12 @@ void CommunicationIndy::connectToTerminal(void)
 				if (indy_tcp_client->Socket && !indy_tcp_client->Socket->Opened)  indy_tcp_client->Socket->Open();
 				if (indy_tcp_client->IOHandler && !indy_tcp_client->IOHandler->Opened) indy_tcp_client->IOHandler->Open();
 			}
+}
+//---------------------------------------------------------------------------
+void CommunicationIndy::checkForDisconnect(void)
+{
+	indy_tcp_client->IOHandler->CheckForDataOnSource(10);
+	indy_tcp_client->IOHandler->CheckForDisconnect(true);
 }
 //---------------------------------------------------------------------------
 void CommunicationIndy::sendMessageToTerminal(Message& return_message, const Message& message_to_send, const int time_out_, const Globals::MessID expected_return_message_ID)
@@ -95,7 +108,9 @@ void CommunicationIndy::sendMessageToTerminal(Message& return_message, const Mes
   for (int time_counter=0; time_counter < time_out; time_counter += Globals::INTERVAL)
   {
     listen(return_message,time_counter);
-    if (return_message.getMessID() == expected_return_message_ID)
+    if (return_message.getMessID() == expected_return_message_ID &&
+    			(return_message.getTransStatus() == Globals::tsApproval || return_message.getTransStatus() == Globals::tsTransAbort)
+       )
 	 {
 		error_flag=false;
 		break;
@@ -128,12 +143,13 @@ void CommunicationIndy::listen(Message& return_message,int& attempts_counter)
 		if (checkInputBuffer())
 		{
          AnsiString frame;
-         unsigned frame_size;
+        int frame_size(0);
+         bool message_readed_flag(false);
 			while (!indy_tcp_client->IOHandler->InputBufferIsEmpty())
 			{
-            if(readByte(frame,frame_size) )
+            message_readed_flag = readByte(frame,frame_size);
+            if(message_readed_flag)
             {
- 						frame = frame.SubString(3, frame.Length() - 2);
 						return_message.setFromString(frame);
 						if (observer) observer->runOnMsg(return_message);
 						frame_size=0;
@@ -142,6 +158,7 @@ void CommunicationIndy::listen(Message& return_message,int& attempts_counter)
 
             }
          }
+         if(message_readed_flag && return_message.getTransStatus()== Globals::tsUnknown) return_message.setTransStatus(Globals::tsApproval);
       }
       if (observer) observer->runOnListen(attempts_counter);
 		Application->ProcessMessages();
@@ -156,19 +173,19 @@ void CommunicationIndy::listen(Message& return_message,int& attempts_counter)
 bool CommunicationIndy::checkInputBuffer(void)
 {
    bool buffer_filled_flag(false);
-	if (indy_tcp_client->Connected() && indy_tcp_client->IOHandler)
-	{
-	  if (indy_tcp_client->IOHandler->InputBufferIsEmpty())
-	  {
-		 indy_tcp_client->IOHandler->CheckForDataOnSource(10);
-		 indy_tcp_client->IOHandler->CheckForDisconnect();
-	  }
-		buffer_filled_flag = !indy_tcp_client->IOHandler->InputBufferIsEmpty();
+	if (indy_tcp_client->Connected() )
+   {
+   	if(indy_tcp_client->IOHandler)
+		{
+	  		if (indy_tcp_client->IOHandler->InputBufferIsEmpty()) checkForDisconnect();
+			buffer_filled_flag = !indy_tcp_client->IOHandler->InputBufferIsEmpty();
+      }
+      else buffer_filled_flag =false;
    }
  return buffer_filled_flag;
 }
 //---------------------------------------------------------------------------
-bool CommunicationIndy::readByte(AnsiString& frame, unsigned& frame_size)
+bool CommunicationIndy::readByte(AnsiString& frame, int& frame_size)
 {
  bool message_readed_flag(false);
  char readed_byte(indy_tcp_client->IOHandler->ReadByte());
@@ -178,8 +195,8 @@ bool CommunicationIndy::readByte(AnsiString& frame, unsigned& frame_size)
 	TIdBytes buffer_for_frame_size;
 	buffer_for_frame_size.Length=2;
 	buffer_for_frame_size[0] = frame.c_str()[1];
-	buffer_for_frame_size[1] = frame.c_str()[2];
-	frame_size =BytesToInt16(buffer_for_frame_size, 0);
+	buffer_for_frame_size[1] = frame.c_str()[0];
+	frame_size =BytesToShort(buffer_for_frame_size);
  }
  else if (static_cast<unsigned>(frame.Length()) >= frame_size + 2)
  {
@@ -197,11 +214,11 @@ void CommunicationIndy::sleep(void)
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
-void CommunicationIndy::resp(const Message& response_message)
+void CommunicationIndy::resp(const Message& response_message_)
 {
 		try
 		{
-			Message response_message(response_message);
+			Message response_message(response_message_);
 			TIdBytes _Buff(getMessAsBytes(response_message));
 
 			if (!indy_tcp_client->Connected()) indy_tcp_client->Connect();

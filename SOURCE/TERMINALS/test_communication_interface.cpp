@@ -10,7 +10,12 @@ using namespace ecr;
 Message TestCommunicationInterface::send(const Message& message_to_send, const Message& close_message)
 {
    Message return_message(close_message);
-   if (observer) observer->runOnECR(return_message);
+   if (observer)
+   {
+      observer->runOnMsg(message_to_send);
+   	observer->runOnECR(return_message);
+   }
+   return_message.setTransStatus(Globals::tsApproval);
 	return return_message;
 }
 

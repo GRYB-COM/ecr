@@ -146,6 +146,19 @@ namespace ecr
 		virtual void setMessage(Message& _Mess, const StringContainer&, const unsigned);
 	};
 
+	class TLVBlockLengthMask : public IFieldMask
+	{
+	public:
+		virtual AnsiString getAsString(const Message& , const String& separator)const ;
+		virtual void setMessage(Message& _Mess, const StringContainer&, const unsigned);
+	};
+	class TLVBlockMask : public IFieldMask
+	{
+	public:
+		virtual AnsiString getAsString(const Message& , const String& separator)const ;
+		virtual void setMessage(Message& _Mess, const StringContainer&, const unsigned);
+	};
+
 	class TimeOutMask : public IFieldMask
 	{
 	public:
@@ -154,6 +167,13 @@ namespace ecr
 	};
 
 	class ZeroMask : public IFieldMask
+	{
+	public:
+		virtual AnsiString getAsString(const Message& , const String& separator)const ;
+		virtual void setMessage(Message& _Mess, const StringContainer&, const unsigned);
+	};
+
+	class OneMask : public IFieldMask
 	{
 	public:
 		virtual AnsiString getAsString(const Message& , const String& separator)const ;

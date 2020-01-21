@@ -27,6 +27,8 @@ namespace ecr
 		int getTermID(void) const              	     {  return m_TermID;       		}
 		String getEcrID(void) const              	     {  return ecr_ID;        		}
 		String getDocID(void) const              	     {  return doc_ID;        		}
+		String getTLVBlock(void) const              	  {  return tlv_block;       		}
+		String getTLVBlockLength(void) const        	  {  return tlv_block_length; 	}
 		Currency getAmount(void) const                 {  return m_Amount;       		}
 		Globals::TransKind getTransKind(void) const    {  return m_TransKind;    		}
 		AnsiString getAsString(void)const;
@@ -79,7 +81,8 @@ namespace ecr
 		int m_PPMSize;
       String ecr_ID;
       String doc_ID;
-
+      const String tlv_block;
+      const String tlv_block_length;
 
 		Globals::RespKind m_RespKind;
 

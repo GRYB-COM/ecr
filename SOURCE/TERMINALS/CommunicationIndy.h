@@ -46,11 +46,12 @@ namespace ecr
 
 		void prepareTerminal(void);
       void connectToTerminal(void);
+      void checkForDisconnect(void);
       void sendMessageToTerminal(Message&,const Message&,const int, const Globals::MessID);
 		Idglobal::TIdBytes getMessAsBytes(const Message& _Mess);
 		void listen(Message&,int& _Counter);
       bool checkInputBuffer(void);
-      bool readByte(AnsiString& frame, unsigned& frame_size );
+      bool readByte(AnsiString& frame, int&  frame_size );
       void sleep(void);
 	};
 }

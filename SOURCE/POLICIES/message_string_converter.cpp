@@ -17,7 +17,7 @@ MessageStringConverter::MessageStringConverter(const MessageStringConverter& mes
  field_mask_repository(new FieldMaskRepository() ),
  field_separator_code(message_string_converter.field_separator_code),
  first_field_index(message_string_converter.first_field_index),
- message_id_frame_position(message_string_converter.message_id_frame_position),
+ message_id_frame_position(message_string_converter.first_field_index),
  message_id_field_kind(message_string_converter.message_id_field_kind)
 {
 
@@ -28,7 +28,6 @@ MessageStringConverter::MessageStringConverter(const Parameters& parameters)
 field_mask_repository(new FieldMaskRepository()),
 field_separator_code(parameters.field_separator_code),
 first_field_index(parameters.first_field_index),
-message_id_frame_position(parameters.message_id_frame_position),
 message_id_field_kind(parameters.message_id_field_kind)
 {
 
@@ -36,14 +35,11 @@ message_id_field_kind(parameters.message_id_field_kind)
 //---------------------------------------------------------------------------
 void MessageStringConverter::convertStringToMessage(Message& message,const AnsiString& message_as_string)
 {
- 	StringContainer message_fields_as_strings = Utils::explode(message_as_string,field_separator_code);
-   ItcardMessIDMask mmm;
-   mmm.setMessage(message,message_fields_as_strings,message_id_frame_position);
-   IFieldMask* message_id_field_mask(&mmm);//(field_mask_repository->find(message_id_field_kind)->second);
-   message_id_field_mask->setMessage(message,message_fields_as_strings,message_id_frame_position);
 
-
-	MessageStructureRepository::const_iterator message_structure_iterator( message_structure_repository->find(message.getMessID()) );
+ 	StringContainer message_fields_as_strings(Utils::explode(message_as_string,field_separator_code));
+   readMessIDFromString(message,message_fields_as_strings);
+   Globals::MessID message_id(message.getMessID());
+	MessageStructureRepository::const_iterator message_structure_iterator( message_structure_repository->find(message_id) );
 	if (message_structure_iterator == message_structure_repository->end()) message_structure_iterator = message_structure_repository->find(Globals::miUnknown);
 	FieldKinds::const_iterator field_kinds_iterator(message_structure_iterator->second.begin());
 	FieldMaskRepository::const_iterator field_mask_iterator;
@@ -56,6 +52,14 @@ void MessageStringConverter::convertStringToMessage(Message& message,const AnsiS
 			field_mask_iterator->second->setMessage(message, message_fields_as_strings, field_index_in_message);
 		++field_index_in_message;
 	}
+}
+//---------------------------------------------------------------------------
+void MessageStringConverter::readMessIDFromString(Message& message, const StringContainer& message_fields_as_strings) const
+{
+
+  //TODO UZUPE£NIÆ O ITCARD
+   FieldMaskRepository::const_iterator field_mask_iterator( field_mask_repository->find(Globals::fkPostcardMessID));
+   field_mask_iterator->second->setMessage(message,message_fields_as_strings,message_id_frame_position);
 }
 //---------------------------------------------------------------------------
 void MessageStringConverter::convertMessageToString(AnsiString& message_as_string,const Message& message)
