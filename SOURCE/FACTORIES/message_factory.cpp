@@ -9,9 +9,10 @@
 //---------------------------------------------------------------------------
 using namespace ecr;
 //---------------------------------------------------------------------------
-MessageFactory::MessageFactory(MessageTemplateRepository* message_template_repository_, MessageStringConverter* message_string_converter_)
+MessageFactory::MessageFactory(MessageTemplateRepository* message_template_repository_, MessageStringConverter* message_string_converter_,const unsigned listen_time_out_)
 :message_template_repository(message_template_repository_),
- message_string_converter(message_string_converter_)
+ message_string_converter(message_string_converter_),
+ listen_time_out(listen_time_out_)
 {
  Randomize();
 }
@@ -29,6 +30,7 @@ Message MessageFactory::createMessage(const Globals::MessID message_ID,const Str
  message.m_MessID = message_ID;
  message.setFromString(message_string_template);
  message.message_token = message_token.IsEmpty() ? Format("%.0x", ARRAYOFCONST((Random(Globals::TOKEN_RANGE)))) : message_token;
+ message.m_TimeOut     = listen_time_out;
  return message;
 }
 //---------------------------------------------------------------------------

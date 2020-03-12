@@ -11,13 +11,14 @@ namespace ecr{
 	class MessageFactory
 	{
 	public:
-		MessageFactory(MessageTemplateRepository*,MessageStringConverter*);
+		MessageFactory(MessageTemplateRepository*,MessageStringConverter*,const unsigned time_out_);
 		Message createMessage(const Globals::MessID message_ID, const String& message_token) const ;
 		Message createMessageFromString(const AnsiString& _MessStr) const ;
 		~MessageFactory();
    private:
    	MessageTemplateRepository*   message_template_repository;
       MessageStringConverter*      message_string_converter;
+      unsigned listen_time_out;
 	};
 
 }

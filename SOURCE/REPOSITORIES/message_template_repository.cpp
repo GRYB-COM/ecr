@@ -8,7 +8,7 @@ using namespace ecr;
 MessageTemplateRepository::MessageTemplateRepository(void)
 {
 	operator[](Globals::miECRPostcardHello)    = String("|2841011|0|||||");
-	operator[](Globals::miECRPostcardHelloExt) = String("|2841111|0|||||0|30313138|1C1000164B41534120552E20492E20494E464F2D53595354454D1C110006323032302E311C120013323032302F30312F30352031363A30303A3030|");
+	operator[](Globals::miECRPostcardHelloExt) = String("|2841111|0|||||1|30313138|1C1000164B41534120552E20492E20494E464F2D53595354454D1C110006323032302E311C120013323032302F30312F30352031363A30303A30301C19000730303436303130|");
 	operator[](Globals::miPOSPostcardHello)    = String("|2840000|0|||99999999|");
 	operator[](Globals::miPOSPostcardHelloExt) = String("|2840100|0|||99999999|");
 	operator[](Globals::miECRPostcardStart)    = String("|2811011|00|000000000000|||||||||");

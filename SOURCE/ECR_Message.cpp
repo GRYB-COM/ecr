@@ -72,6 +72,11 @@ void Message::clear(void)
    doc_ID ="brak";
 
 }
+String Message::getRawMess(void) const
+{
+   AnsiString test(message_as_string);
+	return message_as_string;
+}
 
 //---------------------------------------------------------------------------
 AnsiString Message::getAsString(void) const

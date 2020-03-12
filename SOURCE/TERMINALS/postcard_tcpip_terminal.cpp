@@ -20,7 +20,6 @@ Message PostcardTCPIPTerminal::hello(void)
 {
 	Message ecr_message = message_factory->createMessage(Globals::miECRPostcardHelloExt,Globals::DEFAULT_TOKEN);
 	Message pos_message = message_factory->createMessage(Globals::miPOSPostcardHelloExt,Globals::DEFAULT_TOKEN);
-	pos_message.setTimeOut(Globals::TIME_A);
 	ecr_message = communication_interface->send(ecr_message, pos_message);
 	return ecr_message;
 

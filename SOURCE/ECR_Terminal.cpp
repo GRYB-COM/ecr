@@ -32,7 +32,7 @@ Terminal::Terminal(const Pars& params_,ecr::IObserver& observer )
    converter_parameters.first_field_index =params.terminal_kind == Globals::tkiPostcardTCIP ? 1 : 0;
    converter_parameters.message_id_field_kind     = params.terminal_kind == Globals::tkiPostcardTCIP ? Globals::fkPostcardMessID : Globals::fkItcardMessID;
    MessageStringConverter* message_string_converter(new  MessageStringConverter(converter_parameters) );
-   MessageFactory* message_factory(new MessageFactory(message_template_repository, message_string_converter) );
+   MessageFactory* message_factory(new MessageFactory(message_template_repository, message_string_converter,params.listen_time_out) );
 
    terminal_interface = TerminalFactory::create(params.terminal_kind, communication_interface, message_factory);
 }

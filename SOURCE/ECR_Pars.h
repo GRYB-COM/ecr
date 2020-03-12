@@ -13,6 +13,7 @@ namespace ecr
 		String Typ;
 		bool Multiservice;
 		int Id;
+      unsigned listen_time_out;
       Globals::CommunnicationMode communication_mode;
       Globals::TerminalKind terminal_kind;
       Pars(void);

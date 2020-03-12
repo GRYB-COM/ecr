@@ -34,7 +34,7 @@ namespace ecr
 		AnsiString getAsString(void)const;
 		int getCardType(void) const                    {  return m_CardType;     		}
 		Globals::TransStat getTransStatus(void) const  {  return m_TransStatus;  		}
-		String getRawMess(void) const                  {  return message_as_string;   }
+		String getRawMess(void) const;
 		String getPinPadMsg(void) const                {  return m_PinPadMsg;         }
 		int getPPMSize(void) const                     {  return m_PPMSize;           }
 		Globals::RespKind getRespKind(void) const      {  return m_RespKind;         	}
