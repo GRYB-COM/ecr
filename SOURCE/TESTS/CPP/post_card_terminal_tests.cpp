@@ -113,7 +113,7 @@ void __fastcall PostCardTerminalTests::Test2()
    converter_parameters.message_id_field_kind     = ecr::Globals::fkItcardMessID;
  ecr::MessageStringConverter * message_string_converter( new ecr::MessageStringConverter(converter_parameters) );
  ecr::MessageTemplateRepository * message_template_repository( new ecr::MessageTemplateRepository );
- ecr::MessageFactory message_factory(message_template_repository,message_string_converter);
+ ecr::MessageFactory message_factory(message_template_repository,message_string_converter,0);
  ecr::Message message(  message_factory.createMessage(ecr::Globals::miECRPostcardHelloExt,ecr::Globals::DEFAULT_TOKEN)  );
 
 

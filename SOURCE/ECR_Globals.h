@@ -16,7 +16,7 @@ namespace ecr
          miPOSPostcardHello=2840000, 				miPOSPostcardHelloExt=2840100,   miECRPostcardStart=2811011,
          miECRPostcardStartExt=2811111,   		miPOSPostcardFinish=2810000, 		miPinPadPostcardDisp=2820010,
          miECRPostcardDisp= 2821000, 				miECRPostcardPrompt=2821211, 		miPOSPostcardPrompt=2820200,
-         miPOSPostCardExtendWaitTime=2830110,
+         miPOSPostCardExtendWaitTime=2830110,   miPOSPostCardError=2830010,
          miECRItcardHello=0x5431, 					miPOSItcardHello=0x5432, 			miECRItcardSale=0x5331,
          miPOSItcardSale=0x5332, 					miECRItcardPars=0x4434, 			miPOSItcardPars=0x4435,
          miPOSItcardPrompt=0x4931,					miPOSItcardPrompt1=0x4B33

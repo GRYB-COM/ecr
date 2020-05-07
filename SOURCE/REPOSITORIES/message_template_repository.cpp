@@ -17,6 +17,8 @@ MessageTemplateRepository::MessageTemplateRepository(void)
 	operator[](Globals::miECRPostcardDisp)     = String("|2821000|01|001|1|");
 	operator[](Globals::miECRPostcardPrompt)   = String("|2821211|01|000||");
 	operator[](Globals::miPOSPostcardPrompt)   = String("|2820200|01|000||");
+	operator[](Globals::miPOSPostCardError)   = String("|2830100|");
+	operator[](Globals::miPOSPostCardExtendWaitTime)   = String("|2830110|0|");
 
    operator[](Globals::miECRItcardHello)      = String( "\x1C""T1""\x1C"" \x1C"" \x1C");
    operator[](Globals::miPOSItcardHello)      = String( "\x1C""T2""\x1C"" \x1C"" \x1C");

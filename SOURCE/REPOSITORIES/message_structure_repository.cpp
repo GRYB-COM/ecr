@@ -28,8 +28,9 @@ MessageStructureRepository::MessageStructureRepository(void)
 	operator[](Globals::miPinPadPostcardDisp) += Globals::fkPostcardMessID, Globals::fkPPMSize, Globals::fkPPMsg, Globals::fkNull, Globals::fkPPMResp, Globals::fkTimeOut;
 	operator[](Globals::miECRPostcardDisp) += Globals::fkPostcardMessID, Globals::fkPPMResp, Globals::fkPPMSize, Globals::fkPPMsg, Globals::fkNull;
 	operator[](Globals::miECRPostcardPrompt) += Globals::fkPostcardMessID, Globals::fkPromptReq, Globals::fkPPMSize, Globals::fkPPMsg, Globals::fkNull;
-
-	operator[](Globals::miPOSPostcardPrompt) += Globals::fkPostcardMessID, Globals::fkPromptReq, Globals::fkPPMSize, Globals::fkPPMsg, Globals::fkNull;
+  	operator[](Globals::miPOSPostcardPrompt) += Globals::fkPostcardMessID, Globals::fkPromptReq, Globals::fkPPMSize, Globals::fkPPMsg, Globals::fkNull;
+  	operator[](Globals::miPOSPostCardError) += Globals::fkPostcardMessID, Globals::fkNull;
+  	operator[](Globals::miPOSPostCardExtendWaitTime) += Globals::fkPostcardMessID, Globals::fkTimeOut, Globals::fkNull;
 
    	operator[](Globals::MessID::miECRItcardHello) += Globals::fkItcardMessToken, Globals::fkItcardMessID, Globals::fkNull;
    	operator[](Globals::MessID::miPOSItcardHello) += Globals::fkItcardMessToken, Globals::fkItcardMessID, Globals::fkNull;

@@ -159,7 +159,6 @@
     <ItemGroup>
         <LibFiles Include="DEBUG\LIB\IsECR250.lib" Condition="'$(Platform)'=='Win32'">
             <BuildOrder>2</BuildOrder>
-            <IgnorePath>true</IgnorePath>
         </LibFiles>
         <None Include="SOURCE\ECR_message_factory.h">
             <BuildOrder>3</BuildOrder>

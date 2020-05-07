@@ -2,11 +2,11 @@
     <PropertyGroup>
         <ProjectGuid>{332D86B2-1F3B-4E64-9583-CA20B3967D59}</ProjectGuid>
         <ProjectVersion>18.4</ProjectVersion>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Base>True</Base>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>StaticLibrary</AppType>
-        <FrameworkType>None</FrameworkType>
+        <FrameworkType>VCL</FrameworkType>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
@@ -29,6 +29,11 @@
     </PropertyGroup>
     <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
         <Base_Win32>true</Base_Win32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Base)'=='true') or '$(Base_Win64)'!=''">
+        <Base_Win64>true</Base_Win64>
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
@@ -95,7 +100,7 @@
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <VerInfo_Locale>1045</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
+        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <SanitizedProjectName>IsECR250</SanitizedProjectName>
         <ProjectType>CppStaticLibrary</ProjectType>
         <PackageImports>vclx.bpi;vcl.bpi;vclimg.bpi;dbrtl.bpi;Rave77VCL.bpi;bdertl.bpi;rtl.bpi;bcbie.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;vcldb.bpi;vcldbx.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;TeeUI.bpi;TeeDB.bpi;Tee.bpi;vclib.bpi;ibxpress.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;intrawebdb_100_200.bpi;Intraweb_100_200.bpi;vclie.bpi;websnap.bpi;webdsnap.bpi;inetdb.bpi;inetdbbde.bpi;inetdbxpress.bpi;soaprtl.bpi;vclribbon.bpi;dbexpress.bpi;DbxCommonDriver.bpi;DataSnapIndy10ServerTransport.bpi;DataSnapProviderClient.bpi;DbxClientDriver.bpi;DataSnapServer.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbxcds.bpi;DBXFirebirdDriver.bpi;DBXSybaseASEDriver.bpi;DBXSybaseASADriver.bpi;DBXOracleDriver.bpi;DBXMSSQLDriver.bpi;DBXInformixDriver.bpi;DBXDb2Driver.bpi;WPTools200.bpi;isComponents.bpi;DBFilter200.bpi;$(PackageImports)</PackageImports>
@@ -103,7 +108,7 @@
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
         <DynamicRTL>true</DynamicRTL>
         <UsePackages>true</UsePackages>
-        <IncludePath>SOURCE\TERMINALS\;P:\_COMMON\_SLAWEK\FUNCS\;SOURCE\TABELE_RTF\;SOURCE\;SOURCE\DFM\;$(CG_BOOST_ROOT)\boost\tr1\tr1;$(BDS)\include;$(CG_BOOST_ROOT);..\_INCLUDE;$(IncludePath)</IncludePath>
+        <IncludePath>SOURCE\TERMINALS\;P:\_COMMON\_SLAWEK\FUNCS\;SOURCE\;$(CG_BOOST_ROOT)\boost\tr1\tr1;$(BDS)\include;$(CG_BOOST_ROOT);..\_INCLUDE;SOURCE\POLICIES\;SOURCE\FACTORIES\;SOURCE\REPOSITORIES\;$(IncludePath)</IncludePath>
         <ILINK_LibraryPath>$(BDS)\lib;$(BDS)\lib\obj;$(BDS)\lib\psdk;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_wpar>false</BCC_wpar>
         <BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
@@ -136,6 +141,10 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <IncludePath>$(BDSINCLUDE)\windows\vcl;$(IncludePath)</IncludePath>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win64)'!=''">
+        <IncludePath>$(BDSINCLUDE)\windows\vcl;$(IncludePath)</IncludePath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <TLIB_PageSize>64</TLIB_PageSize>
@@ -203,57 +212,117 @@
         <Defines>NDEBUG;$(Defines)</Defines>
     </PropertyGroup>
     <ItemGroup>
+        <CppCompile Include="SOURCE\ECR_CommunicationFactory.cpp">
+            <DependentOn>SOURCE\ECR_CommunicationFactory.h</DependentOn>
+            <BuildOrder>2</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="SOURCE\ECR_CommunicationInterface.cpp">
+            <DependentOn>SOURCE\ECR_CommunicationInterface.h</DependentOn>
+            <BuildOrder>3</BuildOrder>
+        </CppCompile>
         <CppCompile Include="SOURCE\ECR_Exceptions.cpp">
             <DependentOn>SOURCE\ECR_Exceptions.h</DependentOn>
-            <BuildOrder>11</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="SOURCE\ECR_Factories.cpp">
-            <DependentOn>SOURCE\ECR_Factories.h</DependentOn>
             <BuildOrder>4</BuildOrder>
         </CppCompile>
         <CppCompile Include="SOURCE\ECR_FieldMasks.cpp">
             <DependentOn>SOURCE\ECR_FieldMasks.h</DependentOn>
+            <BuildOrder>5</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="SOURCE\ECR_Fields.cpp">
+            <DependentOn>SOURCE\ECR_Fields.h</DependentOn>
             <BuildOrder>6</BuildOrder>
         </CppCompile>
         <CppCompile Include="SOURCE\ECR_Globals.cpp">
             <DependentOn>SOURCE\ECR_Globals.h</DependentOn>
-            <BuildOrder>0</BuildOrder>
+            <BuildOrder>7</BuildOrder>
         </CppCompile>
         <CppCompile Include="SOURCE\ECR_IFieldMask.cpp">
             <DependentOn>SOURCE\ECR_IFieldMask.h</DependentOn>
-            <BuildOrder>5</BuildOrder>
+            <BuildOrder>8</BuildOrder>
         </CppCompile>
         <CppCompile Include="SOURCE\ECR_IObserver.cpp">
             <DependentOn>SOURCE\ECR_IObserver.h</DependentOn>
-            <BuildOrder>10</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="SOURCE\ECR_ITerminal.cpp">
-            <DependentOn>SOURCE\ECR_ITerminal.h</DependentOn>
-            <BuildOrder>8</BuildOrder>
+            <BuildOrder>9</BuildOrder>
         </CppCompile>
         <CppCompile Include="SOURCE\ECR_Message.cpp">
             <DependentOn>SOURCE\ECR_Message.h</DependentOn>
-            <BuildOrder>1</BuildOrder>
+            <BuildOrder>10</BuildOrder>
         </CppCompile>
         <CppCompile Include="SOURCE\ECR_Pars.cpp">
             <DependentOn>SOURCE\ECR_Pars.h</DependentOn>
-            <BuildOrder>3</BuildOrder>
+            <BuildOrder>11</BuildOrder>
         </CppCompile>
         <CppCompile Include="SOURCE\ECR_Terminal.cpp">
             <DependentOn>SOURCE\ECR_Terminal.h</DependentOn>
-            <BuildOrder>2</BuildOrder>
+            <BuildOrder>12</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="SOURCE\ECR_TerminalFactory.cpp">
+            <DependentOn>SOURCE\ECR_TerminalFactory.h</DependentOn>
+            <BuildOrder>14</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="SOURCE\ECR_terminal_interface.cpp">
+            <DependentOn>SOURCE\ECR_terminal_interface.h</DependentOn>
+            <BuildOrder>13</BuildOrder>
         </CppCompile>
         <CppCompile Include="SOURCE\ECR_TransStatDescr.cpp">
             <DependentOn>SOURCE\ECR_TransStatDescr.h</DependentOn>
-            <BuildOrder>12</BuildOrder>
+            <BuildOrder>15</BuildOrder>
         </CppCompile>
         <CppCompile Include="SOURCE\ECR_Utils.cpp">
             <DependentOn>SOURCE\ECR_Utils.h</DependentOn>
-            <BuildOrder>8</BuildOrder>
+            <BuildOrder>16</BuildOrder>
         </CppCompile>
-        <CppCompile Include="SOURCE\TERMINALS\TerminalIndy.cpp">
-            <DependentOn>SOURCE\TERMINALS\TerminalIndy.h</DependentOn>
-            <BuildOrder>9</BuildOrder>
+        <CppCompile Include="SOURCE\FACTORIES\message_factory.cpp">
+            <DependentOn>SOURCE\FACTORIES\message_factory.h</DependentOn>
+            <BuildOrder>18</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="SOURCE\POLICIES\message_string_converter.cpp">
+            <DependentOn>SOURCE\POLICIES\message_string_converter.h</DependentOn>
+            <BuildOrder>19</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="SOURCE\REPOSITORIES\communication_repository.cpp">
+            <DependentOn>SOURCE\REPOSITORIES\communication_repository.h</DependentOn>
+            <BuildOrder>20</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="SOURCE\REPOSITORIES\field_mask_repository.cpp">
+            <DependentOn>SOURCE\REPOSITORIES\field_mask_repository.h</DependentOn>
+            <BuildOrder>21</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="SOURCE\REPOSITORIES\itcard_transaction_infos_repository.cpp">
+            <DependentOn>SOURCE\REPOSITORIES\itcard_transaction_infos_repository.h</DependentOn>
+            <BuildOrder>22</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="SOURCE\REPOSITORIES\itcard_transaction_result_statements_repository.cpp">
+            <DependentOn>SOURCE\REPOSITORIES\itcard_transaction_result_statements_repository.h</DependentOn>
+            <BuildOrder>23</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="SOURCE\REPOSITORIES\message_structure_repository.cpp">
+            <DependentOn>SOURCE\REPOSITORIES\message_structure_repository.h</DependentOn>
+            <BuildOrder>24</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="SOURCE\REPOSITORIES\message_template_repository.cpp">
+            <DependentOn>SOURCE\REPOSITORIES\message_template_repository.h</DependentOn>
+            <BuildOrder>25</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="SOURCE\TERMINALS\CommunicationIndy.cpp">
+            <DependentOn>SOURCE\TERMINALS\CommunicationIndy.h</DependentOn>
+            <BuildOrder>26</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="SOURCE\TERMINALS\CommunicationSerial.cpp">
+            <DependentOn>SOURCE\TERMINALS\CommunicationSerial.h</DependentOn>
+            <BuildOrder>27</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="SOURCE\TERMINALS\itcard_rs_terminal.cpp">
+            <DependentOn>SOURCE\TERMINALS\itcard_rs_terminal.h</DependentOn>
+            <BuildOrder>28</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="SOURCE\TERMINALS\postcard_tcpip_terminal.cpp">
+            <DependentOn>SOURCE\TERMINALS\postcard_tcpip_terminal.h</DependentOn>
+            <BuildOrder>29</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="SOURCE\TERMINALS\test_communication_interface.cpp">
+            <DependentOn>SOURCE\TERMINALS\test_communication_interface.h</DependentOn>
+            <BuildOrder>30</BuildOrder>
         </CppCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
