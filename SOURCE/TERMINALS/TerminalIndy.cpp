@@ -178,6 +178,7 @@ void TerminalIndy::listen(int& _Counter)
 			if (!m_Client->IOHandler->InputBufferIsEmpty())
 			{
 				char _Byte;
+            wchar_t * test;
 				TIdBytes _BuffSize;
 				_BuffSize.Length=2;
 				char _B;
@@ -187,11 +188,12 @@ void TerminalIndy::listen(int& _Counter)
 					m_MessStr += _B;
 					if (m_MessStr.Length() >= 2 && m_Size ==0)
 					{
-						_BuffSize[0] = m_MessStr.c_str()[1];
-						_BuffSize[1] = m_MessStr.c_str()[2];
-						m_Size =BytesToShort(_BuffSize, 0);
+                  test = m_MessStr.c_str();
+						_BuffSize[0] = test[1];
+						_BuffSize[1] = test[0];
+						m_Size =BytesToInt32(_BuffSize, 0);
 					}
-					if (static_cast<unsigned short>(m_MessStr.Length()) >= m_Size + 2)
+ 					if (static_cast<unsigned short>(m_MessStr.Length()) >= m_Size + 2)
 					{
 						m_MessStr = m_MessStr.SubString(3, m_MessStr.Length() - 2);
 						m_Mess.setFromString(m_MessStr);
@@ -200,6 +202,7 @@ void TerminalIndy::listen(int& _Counter)
 						m_Size=0;
 						m_MessStr="";
 						m_Stack.push_back(m_Mess);
+                  m_MessStr = test;
 
 					}
 				}

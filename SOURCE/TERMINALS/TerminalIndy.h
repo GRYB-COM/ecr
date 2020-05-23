@@ -59,7 +59,7 @@ namespace ecr
 
 		std::vector<Message>m_Stack;
 
-		unsigned short m_Size;
+		unsigned int m_Size;
 
 		//NARZÊDZIA
 		Idtcpclient::TIdTCPClient * m_Client;
