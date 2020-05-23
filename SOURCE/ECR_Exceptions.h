@@ -30,6 +30,14 @@ namespace ecr
 		}
 	};
 
+	class ECRDisconectException : public ECRException
+	{
+	public:
+		ECRDisconectException () : ECRException("Terminal nagle zakoñczy³ pol¹czenie.")
+		{
+		}
+	};
+
 	class ECRNoConnectionException : public ECRException
 	{
 	public:

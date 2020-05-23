@@ -42,12 +42,14 @@ Message CommunicationIndy::send(const Message& message_to_send, const Message& c
 		{
 			return_message.setTransStatus(Globals::tsConnErr);
 			TransStatDescr::m_LastError = "\r\nOryginalny komunikat systemu:\r\n" + exc.getDetails();
+         throw;
 		}
 		catch (Exception& exc)
 		{
 			return_message.clear();
 			return_message.setTransStatus(Globals::tsConnErr);
 			TransStatDescr::m_LastError = "\r\nOryginalny komunikat systemu:\r\n" + exc.Message;
+         throw;
 		}
 	}
 	__finally
@@ -140,6 +142,7 @@ void CommunicationIndy::listen(Message& return_message,int& attempts_counter)
 {
 	try
 	{
+      if(!indy_tcp_client->Connected() ) throw ECRDisconectException();
 		if (checkInputBuffer())
 		{
          AnsiString frame;
