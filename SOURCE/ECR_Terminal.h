@@ -9,6 +9,7 @@ namespace ecr
 {
    class TerminalInterface;
 	class IObserver;
+   class SalePars;
 
 	class Terminal
 	{
@@ -24,7 +25,7 @@ namespace ecr
 			return terminal_ID;
 		}
 		Globals::TransStat hello(void);
-		Globals::TransStat sale(const Currency& _Amount, const short ProfileId, const Globals::TransKind& _Kind);
+		Globals::TransStat sale(const SalePars&);
 		Globals::TransStat resp(const Globals::RespKind _RK, const unsigned short _Val);
 		String getProfileList(const int _TimeOut);
 

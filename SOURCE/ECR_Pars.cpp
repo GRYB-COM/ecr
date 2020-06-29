@@ -12,7 +12,8 @@ Pars::Pars(void)
  Id(-1),
  communication_mode(Globals::CommunnicationMode::cmkUnknown),
  terminal_kind(Globals::TerminalKind::tkiUnknown),
- listen_time_out(Globals::TIME_B)
+ listen_time_out(Globals::TIME_B),
+ ProtocolVersion(pvUnknown)
 {
 
 }

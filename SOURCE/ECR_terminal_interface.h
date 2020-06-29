@@ -9,7 +9,7 @@ namespace ecr{
    class TerminalInterface{
    public:
       virtual Message hello(void)=0;
-		virtual Message sale(const Currency& _Amount, const short ProfileId, const Globals::TransKind& _Kind)=0;
+		virtual Message sale(const SalePars&)=0;
 		virtual Message resp(const Globals::RespKind _RK, const unsigned short _Val)=0;
 		virtual String getProfileList(const int _TimeOut)=0;
       virtual ~TerminalInterface(void){}

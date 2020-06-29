@@ -107,9 +107,11 @@ void CommunicationIndy::sendMessageToTerminal(Message& return_message, const Mes
   int time_out(time_out_);
   if (time_out < 1) time_out = Globals::TIME_B;
   bool error_flag(true);
+  int test_counter;
   for (int time_counter=0; time_counter < time_out; time_counter += Globals::INTERVAL)
   {
-    listen(return_message,time_counter);
+    test_counter = time_counter;
+    listen(return_message,test_counter);
     if (return_message.getMessID() == expected_return_message_ID &&
     			(return_message.getTransStatus() == Globals::tsApproval || return_message.getTransStatus() == Globals::tsTransAbort)
        )

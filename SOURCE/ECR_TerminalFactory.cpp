@@ -4,6 +4,7 @@
 #include "postcard_tcpip_terminal.h"
 #include "itcard_rs_terminal.h"
 #include <System.SysUtils.hpp>
+#include "ECR_Pars.h"
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
 using namespace ecr;
@@ -14,12 +15,12 @@ friend TerminalFactory;
 
 };
 //---------------------------------------------------------------------------
-TerminalInterface* TerminalFactory::create(const Globals::TerminalKind terminal_kind, CommunicationInterface* communication_interface, MessageFactory* message_factory)
+TerminalInterface* TerminalFactory::create(CommunicationInterface* communication_interface, MessageFactory* message_factory, const Pars& pars)
 {
  TerminalInterface * terminal_interface(NULL);
- switch(terminal_kind)
+ switch(pars.terminal_kind)
  {
-    case Globals::tkiPostcardTCIP: terminal_interface = new PostcardTCPIPTerminal(communication_interface,message_factory); break;
+    case Globals::tkiPostcardTCIP: terminal_interface = new PostcardTCPIPTerminal(communication_interface,message_factory,pars); break;
     case Globals::tkiItcardRS: terminal_interface = new ItcardRSTerminal(communication_interface,message_factory); break;
     default: throw TerminalCreateException();
  }

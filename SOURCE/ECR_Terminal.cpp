@@ -34,7 +34,7 @@ Terminal::Terminal(const Pars& params_,ecr::IObserver& observer )
    MessageStringConverter* message_string_converter(new  MessageStringConverter(converter_parameters) );
    MessageFactory* message_factory(new MessageFactory(message_template_repository, message_string_converter,params.listen_time_out) );
 
-   terminal_interface = TerminalFactory::create(params.terminal_kind, communication_interface, message_factory);
+   terminal_interface = TerminalFactory::create(communication_interface, message_factory,params );
 }
 //---------------------------------------------------------------------------
 Terminal::~Terminal(void)
@@ -66,12 +66,12 @@ Globals::TransStat Terminal::hello(void)
 }
 
 //---------------------------------------------------------------------------
-Globals::TransStat Terminal::sale(const Currency& amount, const short profile_ID, const Globals::TransKind& trans_kind)
+Globals::TransStat Terminal::sale(const SalePars& salePars)
 {
 	Globals::TransStat transaction_status(Globals::tsUnknown);
 	try
 	{
-		Message return_message = terminal_interface->sale(amount,profile_ID,trans_kind);
+		Message return_message = terminal_interface->sale(salePars);
 		transaction_status = return_message.getTransStatus();
 
 	}

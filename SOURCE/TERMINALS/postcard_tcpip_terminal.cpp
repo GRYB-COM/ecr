@@ -6,34 +6,37 @@
 #include "ECR_Exceptions.h"
 #include "ECR_CommunicationInterface.h"
 #include "message_factory.h"
+#include "ECR_Pars.h"
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
 using namespace ecr;
 //---------------------------------------------------------------------------
-PostcardTCPIPTerminal::PostcardTCPIPTerminal(CommunicationInterface * communication_interface_, MessageFactory* message_factory_)
+PostcardTCPIPTerminal::PostcardTCPIPTerminal(CommunicationInterface * communication_interface_, MessageFactory* message_factory_, const Pars& pars_)
 :communication_interface(communication_interface_),
- message_factory(message_factory_)
+ message_factory(message_factory_),
+ pars( new Pars(pars_) )
 {
 }
 //---------------------------------------------------------------------------
 Message PostcardTCPIPTerminal::hello(void)
 {
-	Message ecr_message = message_factory->createMessage(Globals::miECRPostcardHelloExt,Globals::DEFAULT_TOKEN);
-	Message pos_message = message_factory->createMessage(Globals::miPOSPostcardHelloExt,Globals::DEFAULT_TOKEN);
+	Message ecr_message = message_factory->createMessage(pars->ProtocolVersion>= pvPostcard_4_60 ? Globals::miECRPostcardHelloExt : Globals::miECRPostcardHello,Globals::DEFAULT_TOKEN);
+	Message pos_message = message_factory->createMessage(pars->ProtocolVersion>= pvPostcard_4_60 ? Globals::miPOSPostcardHelloExt : Globals::miPOSPostcardHello,Globals::DEFAULT_TOKEN);
 	ecr_message = communication_interface->send(ecr_message, pos_message);
 	return ecr_message;
 
 }
 //---------------------------------------------------------------------------
-Message PostcardTCPIPTerminal::sale(const Currency& _Amount, const short _ProfileId, const Globals::TransKind& _Kind)
+Message PostcardTCPIPTerminal::sale(const SalePars& salePars)
 {
-	Message ecr_message = message_factory->createMessage(_ProfileId > 0 ? Globals::miECRPostcardStartExt : Globals::miECRPostcardStart,Globals::DEFAULT_TOKEN);
+	Message ecr_message = message_factory->createMessage(salePars.ProfileId > 0 ? Globals::miECRPostcardStartExt : Globals::miECRPostcardStart,Globals::DEFAULT_TOKEN);
 	Message pos_message = message_factory->createMessage(Globals::miPOSPostcardFinish,Globals::DEFAULT_TOKEN);
 	try
 	{
-		ecr_message.setAmount(_Amount);
-		ecr_message.setTransKind(_Kind);
-		ecr_message.setProfileId(_ProfileId);
+		ecr_message.setAmount(salePars.Amount);
+		ecr_message.setTransKind(salePars.Kind);
+		ecr_message.setProfileId(salePars.ProfileId);
+      ecr_message.setTimeOut(salePars.TimeOut);
 		ecr_message = communication_interface->send(ecr_message, pos_message);
 	}
 	catch (...)
@@ -77,6 +80,7 @@ PostcardTCPIPTerminal::~PostcardTCPIPTerminal(void)
 {
  delete communication_interface;
  delete message_factory;
+ delete pars;
 }
 //---------------------------------------------------------------------------
 

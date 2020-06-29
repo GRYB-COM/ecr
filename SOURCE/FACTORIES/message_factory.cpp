@@ -26,6 +26,7 @@ MessageFactory::~MessageFactory(void)
 Message MessageFactory::createMessage(const Globals::MessID message_ID,const String& message_token) const
 {
  AnsiString message_string_template(message_template_repository->get(message_ID));
+
  Message message(message_string_converter);
  message.m_MessID = message_ID;
  message.setFromString(message_string_template);

@@ -58,14 +58,14 @@ void ItcardRSTerminal::validate(Message& return_message,const Message& pos_messa
 
 }
 //---------------------------------------------------------------------------
-Message ItcardRSTerminal::sale(const Currency& _Amount, const short _ProfileId, const Globals::TransKind& _Kind)
+Message ItcardRSTerminal::sale(const SalePars& salePars)
 {
 	Message ecr_message = message_factory->createMessage(Globals::miECRItcardSale,Globals::GENERATE_TOKEN);
 	Message pos_message = message_factory->createMessage(Globals::miPOSItcardSale,ecr_message.getMessageToken());
-	ecr_message.setAmount(_Amount);
-	ecr_message.setTransKind(_Kind);
-	ecr_message.setProfileId(_ProfileId);
-   pos_message.setTimeOut(Globals::TIME_ITCARD_B);
+	ecr_message.setAmount(salePars.Amount);
+	ecr_message.setTransKind(salePars.Kind);
+	ecr_message.setProfileId(salePars.ProfileId);
+   pos_message.setTimeOut(salePars.TimeOut);
    Message return_message(communication_interface->send(ecr_message, pos_message));
    if(return_message.getTransStatus() == Globals::tsTransAbort)
    {

@@ -14,6 +14,7 @@ namespace ecr
 		bool Multiservice;
 		int Id;
       unsigned listen_time_out;
+      ProtocolVersion ProtocolVersion;
       Globals::CommunnicationMode communication_mode;
       Globals::TerminalKind terminal_kind;
       Pars(void);

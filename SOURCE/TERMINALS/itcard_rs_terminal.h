@@ -6,11 +6,12 @@
 namespace ecr{
    class CommunicationInterface;
    class MessageFactory;
+   class SalePars;
    class ItcardRSTerminal :public TerminalInterface{
    public:
       ItcardRSTerminal(CommunicationInterface*,MessageFactory*);
       virtual Message hello(void);
-		virtual Message sale(const Currency& _Amount, const short ProfileId, const Globals::TransKind& _Kind);
+		virtual Message sale(const SalePars&);
 		virtual Message resp(const Globals::RespKind _RK, const unsigned short _Val);
 		virtual String getProfileList(const int _TimeOut);
       virtual ~ItcardRSTerminal(void);

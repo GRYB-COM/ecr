@@ -85,6 +85,18 @@ namespace ecr
 		//FUNKCJE
 		static String getTransStatDescr(const TransStat& _Stat);
 	};
+
+   struct SalePars{
+   	Currency Amount;
+      short ProfileId;
+      Globals::TransKind Kind;
+        int TimeOut;
+   };
+
+   enum ProtocolVersion{
+      pvUnknown=-1, pvPostard_4_44, pvPostcard_4_60, pvItCard_1_6
+   };
+
 }//endnamespace
 //---------------------------------------------------------------------------
 #endif
